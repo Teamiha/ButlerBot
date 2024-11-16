@@ -1,0 +1,10 @@
+{
+  "lock": false,
+  "version": "0.0.1",
+  "license": "",
+  "tasks": {
+    "dev": "DEV=true deno run -A --unstable-kv --allow-env ./bot.ts",
+    "deploy": "deno -A --unstable-kv --allow-env ./source/main.ts"
+  },
+  "importMap": "./import-map.json"
+}
