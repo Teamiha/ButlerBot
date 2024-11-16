@@ -1,8 +1,3 @@
-const CLIENT_ID = "your-client-id.apps.googleusercontent.com";
-const CLIENT_SECRET = "your-client-secret";
-const REDIRECT_URI = "http://localhost:8000/oauth2callback";
-
-
 // let accessToken = "";
 
 interface Tokens {
