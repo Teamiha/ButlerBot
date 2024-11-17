@@ -23,7 +23,7 @@ export const adminKeyboard = new InlineKeyboard()
   .row()
   .text("Создать напоминание", "auth")
   .row()
-  .text("Авторизация", "auth")
+  .text("Добавить пользователя", "auth")
   .row()
   .text("Авторизация", "auth");
 

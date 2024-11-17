@@ -1,6 +1,6 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
-import { startKeyboard } from "./keyboard.ts";
+import { startKeyboard } from "./botStatic/keyboard.ts";
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
 // const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
