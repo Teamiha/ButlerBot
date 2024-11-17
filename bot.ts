@@ -1,6 +1,7 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
 import { startKeyboard } from "./botStatic/keyboard.ts";
+import { botStart } from "./botModules/botStart.ts";
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
 // const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
@@ -17,9 +18,7 @@ const bot = new Bot(BOT_TOKEN);
 //   });
 
 bot.command("start", async (ctx) => {
-  await ctx.reply("Start:", {
-    reply_markup: startKeyboard,
-  });
+    await botStart(ctx);
 });
 
 bot.start();

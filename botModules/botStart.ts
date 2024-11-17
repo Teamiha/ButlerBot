@@ -1,6 +1,5 @@
 import { Context } from "@grammyjs/bot";
 import { hasAccess, updateUser } from "../db.ts";
-import { getDate } from "../helpers.ts";
 import { startKeyboard } from "../botStatic/keyboard.ts";
 
 export async function botStart(ctx: Context) {
