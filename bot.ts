@@ -16,14 +16,10 @@ const bot = new Bot(BOT_TOKEN);
 //     ctx.reply(`Авторизуйтесь, перейдя по ссылке: ${authUrl}`);
 //   });
 
-
-
-
 bot.command("start", async (ctx) => {
-    await ctx.reply("Start:", {
-        reply_markup: startKeyboard,
-      });
+  await ctx.reply("Start:", {
+    reply_markup: startKeyboard,
   });
-
+});
 
 bot.start();

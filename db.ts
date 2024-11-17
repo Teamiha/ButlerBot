@@ -1,78 +1,85 @@
 export interface UserData {
-    nick: string
-    name: string;
-    birthday: string;
-    status: string;
-    cleaningStatus: string;
-    reminderMode: string;
-    keychain: Record<string, string>;
-    notes: string;
+  nick: string;
+  name: string;
+  birthday: string;
+  status: string;
+  cleaningStatus: string;
+  reminderMode: string;
+  keychain: Record<string, string>;
+  notes: string;
 }
 
-
 export async function createNewUser(userId: number) {
-    const kv = await Deno.openKv();
-    
-    const newUserData: UserData = {
-        nick: "",
-        name: "",
-        birthday: "",
-        status: "",
-        cleaningStatus: "",
-        reminderMode: "",
-        keychain: {},
-        notes: "",
-    } 
+  const kv = await Deno.openKv();
 
-    await kv.set(["reltubBot", "userId:", userId], newUserData);
+  const newUserData: UserData = {
+    nick: "",
+    name: "",
+    birthday: "",
+    status: "",
+    cleaningStatus: "",
+    reminderMode: "",
+    keychain: {},
+    notes: "",
+  };
 
-    await kv.close();
+  await kv.set(["reltubBot", "userId:", userId], newUserData);
+
+  await kv.close();
 }
 
 export async function updateUser<Key extends keyof UserData>(
-    userId: number,
-    dataUpdate: Key,
-    valueUpdate: UserData[Key],
+  userId: number,
+  dataUpdate: Key,
+  valueUpdate: UserData[Key],
+) {
+  const kv = await Deno.openKv();
+  const currentData = await kv.get<UserData>(["reltubBot", "userId:", userId]);
+  if (
+    currentData && currentData.value && `${dataUpdate}` in currentData.value
   ) {
-    const kv = await Deno.openKv();
-    const currentData = await kv.get<UserData>(["reltubBot", "userId:", userId]);
-    if (
-      currentData && currentData.value && `${dataUpdate}` in currentData.value
-    ) {
-      currentData.value[dataUpdate] = valueUpdate;
-      await kv.set(["reltubBot", "userId:", userId], currentData.value);
-    } else {
-      console.log("Запись не найдена");
-    }
-    await kv.close();
-  }   
+    currentData.value[dataUpdate] = valueUpdate;
+    await kv.set(["reltubBot", "userId:", userId], currentData.value);
+  } else {
+    console.log("Запись не найдена");
+  }
+  await kv.close();
+}
 
 export async function grantAccess(userId: number) {
-    const kv = await Deno.openKv();
+  const kv = await Deno.openKv();
 
-    const result = await kv.get<number[]>(["reltubBot", "accessList"]);
-    const accessList = result.value || [];
+  const result = await kv.get<number[]>(["reltubBot", "accessList"]);
+  const accessList = result.value || [];
 
-    if (!accessList.includes(userId)) {
-        accessList.push(userId);
-        await kv.set(["reltubBot", "accessList"], accessList);
-    }
+  if (!accessList.includes(userId)) {
+    accessList.push(userId);
+    await kv.set(["reltubBot", "accessList"], accessList);
+  }
 
-    await kv.close();
+  await kv.close();
 }
 
 export async function revokeAccess(userId: number) {
-    const kv = await Deno.openKv();
+  const kv = await Deno.openKv();
 
-    // Получаем текущий список пользователей
-    const result = await kv.get<number[]>(["reltubBot", "accessList"]);
-    const accessList = result.value || [];
+  const result = await kv.get<number[]>(["reltubBot", "accessList"]);
+  const accessList = result.value || [];
 
-    // Убираем userId из списка
-    const updatedList = accessList.filter((id) => id !== userId);
+  const updatedList = accessList.filter((id) => id !== userId);
 
-    // Обновляем список в Kv
-    await kv.set(["reltubBot", "accessList"], updatedList);
+  await kv.set(["reltubBot", "accessList"], updatedList);
 
-    await kv.close();
+  await kv.close();
+}
+
+export async function hasAccess(userId: number): Promise<boolean> {
+  const kv = await Deno.openKv();
+
+  const result = await kv.get<number[]>(["reltubBot", "accessList"]);
+  const accessList = result.value || [];
+
+  await kv.close();
+
+  return accessList.includes(userId);
 }
