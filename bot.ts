@@ -43,6 +43,6 @@ bot.command("start", async (ctx) => {
 
 // bot.start();
 
-// testCronDailyMessage(bot);
+testCronDailyMessage(bot);
 
-export { bot }
+export { bot };
