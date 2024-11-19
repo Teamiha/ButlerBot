@@ -3,6 +3,7 @@ import { hasAccess, updateUser } from "../db.ts";
 import { startKeyboard } from "../botStatic/keyboard.ts";
 
 export async function botStart(ctx: Context) {
+   console.log("вошёл в ботСтарт")
   const userId = ctx.from?.id;
   const userName = ctx.from?.username;
 
