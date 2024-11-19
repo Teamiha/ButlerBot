@@ -3,6 +3,7 @@ import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
 import {cron} from "@cron"; 
 import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
+import { testCronDailyMessage } from "./botModules/BotDailyMessage.ts";
 
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
@@ -40,3 +41,4 @@ cron("0 9 * * *", async () => {
 
 
 bot.start();
+testCronDailyMessage(bot);

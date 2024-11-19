@@ -7,7 +7,7 @@ const dailyMessage = "Сейчас 10 часов утра, и я, такой м�
 
 
 
-export function setupOtherCrons(bot: Bot) {
+export function testCronDailyMessage(bot: Bot) {
 
     cron("0 10 * * *", async () => {
         try {
