@@ -7,9 +7,9 @@ export const startKeyboard = new InlineKeyboard()
   .row()
   .text("Анонимное сообщение", "auth")
   .row()
-  .text("Админский раздел", "auth")
+  .text("Полезная информация", "auth")
   .row()
-  .text("Авторизация", "auth");
+  .text("Админский раздел", "auth");
 
 export const adminKeyboard = new InlineKeyboard()
   .text("Написать новость", "auth")

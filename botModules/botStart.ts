@@ -16,6 +16,7 @@ export async function botStart(ctx: Context) {
     }
     if (userHasAccess === false) {
       await ctx.reply("У вас нет доступа к этому боту.")
+    //   @userinfobot
       ;
     }
   }
