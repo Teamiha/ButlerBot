@@ -7,6 +7,7 @@
     "@cron": "https://deno.land/x/deno_cron@v1.0.0/cron.ts",
     "@googleAI": "npm:@google/generative-ai",
     "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.5",
-    "@libs/std": "jsr:@libs/std@^2024.10.5"
+    "@libs/std": "jsr:@libs/std@^2024.10.5",
+    "@DenoCrone": "https://deno.land/x/deno_cron/mod.ts"
   }
 }

@@ -4,7 +4,7 @@ import { BOT_TOKEN } from "./config.ts";
 import {cron} from "@cron"; 
 import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
-import { testCronDailyMessage } from "./botModules/BotDailyMessage.ts";
+import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
@@ -31,18 +31,16 @@ bot.command("start", async (ctx) => {
     
 });
 
-// cron("0 9 * * *", async () => {
-//     try {
-//         await bot.api.sendMessage(groupId, "Доброе утро! Начинаем новый день.");
-//         console.log("Ежедневное сообщение отправлено.");
-//     } catch (error) {
-//         console.error("Ошибка при отправке ежедневного сообщения:", error);
-//     }
-// });
+bot.callbackQuery("chosenYes", async (ctx) => {
+    
+    
+  });
 
 
-// bot.start();
 
+
+testClaudeDailyMessage(bot);
+testDenoDailyMessage(bot);
 testCronDailyMessage(bot);
 
 export { bot };
