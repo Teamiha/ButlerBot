@@ -11,8 +11,9 @@ export function testCronDailyMessage(bot: Bot) {
 
     cron("0 10 * * *", async () => {
         try {
+            console.log("Бот проснулся.");
             await bot.api.sendMessage(CHAT_ID, dailyMessage);
-            console.log("Еженедельное сообщение отправлено.");
+            console.log("Ежедневное сообщение отправлено.");
         } catch (error) {
             console.error("Ошибка при отправке еженедельного сообщения:", error);
         }

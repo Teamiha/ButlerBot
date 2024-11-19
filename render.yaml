@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: telegram-bot
-    env: deno
-    buildCommand: deno cache bot.ts
-    startCommand: deno run -A --unstable-kv --allow-env bot.ts
-    region: frankfurt 
-    envVars: [] 
