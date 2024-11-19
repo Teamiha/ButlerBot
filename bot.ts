@@ -12,7 +12,7 @@ import { testCronDailyMessage } from "./botModules/BotDailyMessage.ts";
 
 // let accessToken = "";
 
-export const bot = new Bot(BOT_TOKEN);
+const bot = new Bot(BOT_TOKEN);
 
 // bot.callbackQuery("auth", (ctx) => {
 //     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPES.join(
@@ -41,5 +41,8 @@ bot.command("start", async (ctx) => {
 // });
 
 
-bot.start();
+// bot.start();
+
 testCronDailyMessage(bot);
+
+export { bot }
