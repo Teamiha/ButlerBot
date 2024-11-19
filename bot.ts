@@ -23,9 +23,9 @@ const bot = new Bot(BOT_TOKEN);
 
 bot.command("start", async (ctx) => {
 
-    const chatId = ctx.chat.id;
-    await ctx.reply(`ID этого чата: ${chatId}`);
-    console.log(`Chat ID: ${chatId}`);
+    // const chatId = ctx.chat.id;
+    // await ctx.reply(`ID этого чата: ${chatId}`);
+    // console.log(`Chat ID: ${chatId}`);
 
     await botStart(ctx);
     
