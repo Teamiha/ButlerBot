@@ -1,7 +1,9 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
+import {cron} from "@cron"; 
 import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
+
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
 // const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
@@ -18,7 +20,23 @@ const bot = new Bot(BOT_TOKEN);
 //   });
 
 bot.command("start", async (ctx) => {
+
+    const chatId = ctx.chat.id;
+    await ctx.reply(`ID этого чата: ${chatId}`);
+    console.log(`Chat ID: ${chatId}`);
+
     await botStart(ctx);
+    
 });
+
+cron("0 9 * * *", async () => {
+    try {
+        await bot.api.sendMessage(groupId, "Доброе утро! Начинаем новый день.");
+        console.log("Ежедневное сообщение отправлено.");
+    } catch (error) {
+        console.error("Ошибка при отправке ежедневного сообщения:", error);
+    }
+});
+
 
 bot.start();

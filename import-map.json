@@ -4,7 +4,7 @@
     "@grammyjs/bot": "https://deno.land/x/grammy@v1.30.0/mod.ts",
     "@openai/openai": "https://deno.land/x/openai@v4.68.2/mod.ts",
     "@googleAPI": "https://deno.land/x/google_deno_integration/mod.ts",
-    "@cron": "https://deno.land/x/deno_cron/cron.ts",
+    "@cron": "https://deno.land/x/deno_cron@v1.0.0/cron.ts",
     "@googleAI": "npm:@google/generative-ai",
     "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.5",
     "@libs/std": "jsr:@libs/std@^2024.10.5"
