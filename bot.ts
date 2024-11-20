@@ -5,6 +5,7 @@ import {cron} from "@cron";
 import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
+import { anonymusMessage } from "./botModules/botAnonymusMessage.ts";
 
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
@@ -32,8 +33,7 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    
-    
+    await anonymusMessage(ctx, bot)
   });
 
 

@@ -11,12 +11,11 @@ const handleUpdate = webhookCallback(bot, "std/http", { timeoutMilliseconds: 300
 
 Deno.serve(async (req) => {
   try {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
 
     const url = new URL(req.url);
     const incomingPath = url.pathname.slice(1);
 
-    console.log("BOT_TOKEN:", BOT_TOKEN);
+    
     
     if (req.method === "POST" && (
       incomingPath === BOT_TOKEN || 
