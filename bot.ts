@@ -15,10 +15,10 @@ import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 
 export interface SessionData {
     stage:
-      | "waitingForMessage"
+      | "anonMessage"
+      | "askName"
+      | "askBirthDate"
       | "null";
-    anonoymusMassage: string;
-    waitingForMessage: boolean;
   }
 
 export type MyContext = Context & SessionFlavor<SessionData>;
@@ -31,8 +31,6 @@ const bot = new Bot<MyContext>(BOT_TOKEN);
   bot.use(session({
     initial: (): SessionData => ({
       stage: "null",
-      anonoymusMassage: "",
-      waitingForMessage: false,
     }),
   }));
 
@@ -54,17 +52,17 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    ctx.session.waitingForMessage = true;
+    ctx.session.stage = "anonMessage";
     await ctx.reply("Напиши своё сообщение:");
   });
 
 bot.on("message:text", async (ctx) => {
-    if (ctx.session.waitingForMessage) {
+    if (ctx.session.stage === "anonMessage") {
         // Retrieve the user's message
         const messageText = ctx.message.text;
 
         // Reset the session flag
-        ctx.session.waitingForMessage = false;
+        ctx.session.stage = "null";
 
         // Send the anonymous message to the specified group
         await sendMessageToGroup(bot, CHAT_ID, messageText);

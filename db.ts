@@ -9,6 +9,12 @@ export interface UserData {
   notes: string;
 }
 
+export interface CleaningZones {
+  kitchen: number;
+  bathroomFirstFloor: number;
+  bathroomSecondFloor: number;
+}
+
 export async function createNewUser(userId: number) {
   const kv = await Deno.openKv();
 
