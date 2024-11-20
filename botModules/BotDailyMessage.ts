@@ -2,13 +2,17 @@ import { cron } from "@cron";
 import { Bot } from "@grammyjs/bot";
 import { CHAT_ID } from "../botStatic/constance.ts";
 import { MyContext } from "../bot.ts";
+import { formatWeatherMessage, getTodayWeather } from "../weatherService.ts";
 
+const weatherMessage = formatWeatherMessage(await getTodayWeather());
 
 const dailyMessage1 = `Сейчас 11 часов утра, и я, такой молодец, созданный гениальный Михаилом, вам об этом сообщаю!
 Cron сработал успешно.
 `
 const dailyMessage2 = `Сейчас 12 часов утра, и это должно быть сегодня единственное сообщение.
-`
+А ещё, рассписание погоды на сегодня!
+${weatherMessage}`
+
 const dailyMessage3 = `Сейчас 13 часов утра, и я, такой молодец, созданный гениальный Михаилом, вам об этом сообщаю!
 DenoCron обмазанный всяким, сработал успешно. 
 `
