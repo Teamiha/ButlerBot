@@ -1,7 +1,7 @@
 import { cron } from "@cron";
-import { Bot } from "https://deno.land/x/grammy/mod.ts";
+import { Bot } from "@grammyjs/bot";
 import { CHAT_ID } from "../botStatic/constance.ts";
-// import { CronSchedule } from "@DenoCrone";
+
 
 const dailyMessage1 = `Сейчас 11 часов утра, и я, такой молодец, созданный гениальный Михаилом, вам об этом сообщаю!
 Cron сработал успешно.
@@ -31,6 +31,9 @@ DenoCron обмазанный всяким, сработал успешно.
 // }
 
 // const targetHour = yerevanToUTC(11)
+
+// const test: Deno.CronSchedule =
+
 
 export function testCronDailyMessage(bot: Bot) {
 

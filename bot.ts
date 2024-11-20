@@ -31,7 +31,7 @@ bot.command("start", async (ctx) => {
     
 });
 
-bot.callbackQuery("chosenYes", async (ctx) => {
+bot.callbackQuery("anonMessage", async (ctx) => {
     
     
   });
