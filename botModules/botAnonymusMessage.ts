@@ -20,7 +20,7 @@ export async function anonymusMessage(ctx: Context, bot: Bot) {
             }
         };
         console.log("4-момент до Бот.Он")
-        bot.on("message:text", handler);
+        bot.on("message", handler);
         console.log("5-момент после.")
     });
     console.log("6-До переотправки полученого сообщения")
