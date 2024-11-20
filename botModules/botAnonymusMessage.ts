@@ -4,10 +4,8 @@ export async function anonymusMessage(ctx: Context, bot: Bot) {
     await ctx.reply("Привет! Введи своё сообщение.");
 
     console.log("1-Прошло первое сообщение")
-
-    let test = ""
     
-    test = await new Promise<string>((resolve, reject) => {
+    const test = await new Promise<string>((resolve, reject) => {
         console.log("2-Начат процесс получение текста")
         const handler = async (ctx: Context) => {
             try {
@@ -27,7 +25,6 @@ export async function anonymusMessage(ctx: Context, bot: Bot) {
     });
     console.log("6-До переотправки полученого сообщения")
     await ctx.reply(`Твоё сообщение: ${test}`);
-    test = ""
     console.log("7-После переотправки")
 
 }
