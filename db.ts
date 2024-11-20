@@ -91,25 +91,25 @@ export async function hasAccess(userId: number): Promise<boolean> {
 }
 
 export async function getUser(userId: number) {
-    const kv = await Deno.openKv();
-    const user = await kv.get<UserData>(["reltubBot", "userId:", userId]);
-    if (!user.value) {
-      await createNewUser(userId);
-      const newUserData = await kv.get(["reltubBot", "userId:", userId]);
-      console.log("new user");
-      await kv.close();
-      return newUserData;
-    }
+  const kv = await Deno.openKv();
+  const user = await kv.get<UserData>(["reltubBot", "userId:", userId]);
+  if (!user.value) {
+    await createNewUser(userId);
+    const newUserData = await kv.get(["reltubBot", "userId:", userId]);
+    console.log("new user");
     await kv.close();
-    return user;
+    return newUserData;
+  }
+  await kv.close();
+  return user;
 }
 
 export async function getUserParametr<Key extends keyof UserData>(
-    userId: number,
-    parametr: Key,
-  ) {
-    const user = await getUser(userId);
-    return (user.value as UserData)[parametr];
-  }
+  userId: number,
+  parametr: Key,
+) {
+  const user = await getUser(userId);
+  return (user.value as UserData)[parametr];
+}
 
 // console.log(await getUser(526827458));

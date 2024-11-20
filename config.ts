@@ -12,4 +12,4 @@ if (!OPENWEATHER_API_KEY) {
 
 // if (!googleAIKey) {
 //   throw new Error("GOOGLE_AI_KEY environment variable is required");
-// } 
+// }

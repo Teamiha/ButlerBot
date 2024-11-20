@@ -1,8 +1,5 @@
 import { OPENWEATHER_API_KEY } from "./config.ts";
 
-
-
-
 const YEREVAN_CITY_ID = "616052"; // Код города Еревана
 
 interface WeatherData {
@@ -16,7 +13,7 @@ interface WeatherData {
 export async function getTodayWeather(): Promise<WeatherData> {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?id=${YEREVAN_CITY_ID}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=ru`
+      `https://api.openweathermap.org/data/2.5/weather?id=${YEREVAN_CITY_ID}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=ru`,
     );
 
     if (!response.ok) {
@@ -30,7 +27,7 @@ export async function getTodayWeather(): Promise<WeatherData> {
       feels_like: Math.round(data.main.feels_like),
       humidity: data.main.humidity,
       description: data.weather[0].description,
-      wind_speed: data.wind.speed
+      wind_speed: data.wind.speed,
     };
   } catch (error) {
     console.error("Ошибка при получении погоды:", error);
@@ -48,4 +45,3 @@ export function formatWeatherMessage(weather: WeatherData): string {
 🌪 Скорость ветра: ${weather.wind_speed} м/с
 📝 Описание: ${weather.description}`;
 }
-
