@@ -35,7 +35,8 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    await anonymusMessage(ctx)
+    const getMessage = await anonymusMessage(ctx);
+    bot.on("message:text", getMessage);
   });
 
 
