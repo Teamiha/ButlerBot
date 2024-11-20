@@ -43,7 +43,7 @@ bot.command("start", async (ctx) => {
   // const chatId = ctx.chat.id;
   // await ctx.reply(`ID этого чата: ${chatId}`);
   // console.log(`Chat ID: ${chatId}`);
-
+  ctx.session.stage = "null";
   await botStart(ctx);
 });
 
