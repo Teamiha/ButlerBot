@@ -10,6 +10,13 @@ export async function botStart(ctx: MyContext) {
     const userHasAccess = await hasAccess(userId);
     const userNameDB = await getUserParametr(userId, "nickName");
 
+    if (userHasAccess === false) {
+        await ctx.reply(`У вас нет доступа к этому боту.
+          Напишите @userinfobot, узнайте свой UserId и отправьте его администратору.
+          `);
+      return;
+    }   
+
     if (userNameDB !== userName && userName !== undefined) {
         await ctx.reply("Пожалуйста, пройдите регистрацию.", {
             reply_markup: registrationKeyboard,
@@ -23,14 +30,7 @@ export async function botStart(ctx: MyContext) {
       });
     }
 
-    
-    
-
-    if (userHasAccess === false) {
-      await ctx.reply(`У вас нет доступа к этому боту.
-        Напишите @userinfobot, узнайте свой UserId и отправьте его администратору.
-        `);
-    }   
+   
 
 
   }

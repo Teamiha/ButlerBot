@@ -6,6 +6,7 @@ import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
+import { updateUser } from "./db.ts";
 
 // import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
 
@@ -49,6 +50,15 @@ bot.command("start", async (ctx) => {
     
 });
 
+bot.callbackQuery("auth", async (ctx) => {
+    ctx.session.stage = "askName";
+    const userName = ctx.from?.username;
+    if (userName) {
+        await updateUser(ctx.from?.id, "nickName", userName);
+    }
+    await ctx.reply("Напишите ваше имя:");
+});
+
 bot.callbackQuery("anonMessage", async (ctx) => {
     ctx.session.stage = "anonMessage";
     await ctx.reply("Напиши своё сообщение:");
@@ -57,13 +67,25 @@ bot.callbackQuery("anonMessage", async (ctx) => {
 bot.on("message:text", async (ctx) => {
     if (ctx.session.stage === "anonMessage") {
         const messageText = ctx.message.text;
-
         ctx.session.stage = "null";
-
         await sendMessageToGroup(bot, CHAT_ID, messageText);
-
         await ctx.reply("Ваше анонимное сообщение отправлено!");
-    }
+    } else if (ctx.session.stage === "askName") {
+        const messageText = ctx.message.text;
+        await updateUser(ctx.from?.id, "name", messageText);
+        ctx.session.stage = "askBirthDate";
+        await ctx.reply(`Теперь укажите вашу дату рождения в формате YYYY-MM-DD.
+            Что значит Год-Месяц-День.
+            Например: 1988-11-30
+            `);
+    } else if (ctx.session.stage === "askBirthDate") {
+        const messageText = ctx.message.text;
+        await updateUser(ctx.from?.id, "birthday", messageText);
+        ctx.session.stage = "null";
+        await ctx.reply("Регистрация завершена! Спасибо!");
+    } else {
+        await ctx.reply("Введите команду /start для начала.");
+      }
 });
 
 
