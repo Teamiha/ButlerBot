@@ -42,6 +42,7 @@ bot.command("start", async (ctx) => {
 
 bot.callbackQuery("anonMessage", async (ctx) => {
     const getMessage = await anonymusMessage(ctx);
+    bot.on("message:text", getMessage)
     console.log(getMessage)
     if (getMessage) {
         await sendMessageToGroup(bot, 526827458, getMessage);
