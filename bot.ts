@@ -20,7 +20,11 @@ export type MyContext = Context & SessionFlavor<MySession>;
 
 const bot = new Bot<MyContext>(BOT_TOKEN);
 
-bot.use(session<MySession, MyContext>())
+bot.use(
+    session<MySession, MyContext>({
+      initial: () => ({}), // Инициализируем сессию
+    }),
+  );
 
 // bot.callbackQuery("auth", (ctx) => {
 
