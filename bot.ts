@@ -62,7 +62,7 @@ bot.on("message:text", async (ctx) => {
         ctx.session.waitingForMessage = false;
 
         // Send the anonymous message to the specified group
-        await sendMessageToGroup(bot, 526827458, messageText);
+        await sendMessageToGroup(bot, CHAT_ID, messageText);
 
         // Optionally, inform the user that their message has been sent
         await ctx.reply("Ваше анонимное сообщение отправлено!");
