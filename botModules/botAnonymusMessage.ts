@@ -19,5 +19,7 @@ export async function anonymusMessage(ctx: Context, bot: Bot) {
     });
 
     await ctx.reply(`Твоё сообщение: ${test}`);
+
+    return
 }
 
