@@ -9,3 +9,10 @@
 //     )}&access_type=offline`;
 //     ctx.reply(`Авторизуйтесь, перейдя по ссылке: ${authUrl}`);
 //   });
+
+
+// bot.use(
+//     session<MySession, SessionData>({
+//       initial: () => ({}), // Инициализируем сессию
+//     }),
+//   );

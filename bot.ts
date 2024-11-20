@@ -13,20 +13,28 @@ import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 
 
 
-interface MySession {
-    waitingForMessage?: boolean;
+export interface SessionData {
+    stage:
+      | "waitingForMessage"
+      | "null";
+    anonoymusMassage: string;
+    waitingForMessage: boolean;
   }
 
-export type MyContext = Context & SessionFlavor<MySession>;
+export type MyContext = Context & SessionFlavor<SessionData>;
 
 
 const bot = new Bot<MyContext>(BOT_TOKEN);
 
-bot.use(
-    session<MySession, MyContext>({
-      initial: () => ({}), // Инициализируем сессию
+
+
+  bot.use(session({
+    initial: (): SessionData => ({
+      stage: "null",
+      anonoymusMassage: "",
+      waitingForMessage: false,
     }),
-  );
+  }));
 
 // bot.callbackQuery("auth", (ctx) => {
 
@@ -41,19 +49,25 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    const getMessage = await anonymusMessage(ctx);
-    bot.on("message:text", getMessage)
-    console.log(getMessage)
-    if (getMessage) {
-        await sendMessageToGroup(bot, 526827458, getMessage);
-    } else {
-        console.log("Error get message to send")
-    }
-    // bot.on("message:text", getMessage);
-
+    ctx.session.waitingForMessage = true;
+    await ctx.reply("Напиши своё сообщение:");
   });
 
+bot.on("message:text", async (ctx) => {
+    if (ctx.session.waitingForMessage) {
+        // Retrieve the user's message
+        const messageText = ctx.message.text;
 
+        // Reset the session flag
+        ctx.session.waitingForMessage = false;
+
+        // Send the anonymous message to the specified group
+        await sendMessageToGroup(bot, 526827458, messageText);
+
+        // Optionally, inform the user that their message has been sent
+        await ctx.reply("Ваше анонимное сообщение отправлено!");
+    }
+});
 
 
 // testClaudeDailyMessage(bot);
