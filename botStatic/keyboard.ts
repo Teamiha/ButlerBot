@@ -1,5 +1,5 @@
 import { InlineKeyboard } from "@grammyjs/bot";
-
+import { getAllUserNames } from "../db.ts";
 export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
 
@@ -12,7 +12,7 @@ export const startKeyboard = new InlineKeyboard()
   .row()
   .text("Полезная информация", "auth")
   .row()
-  .text("Админский раздел", "auth");
+  .text("Админский раздел", "listOfUsers");
 
 export const adminKeyboard = new InlineKeyboard()
   .text("Написать новость", "auth")
@@ -35,3 +35,13 @@ export const calendarKeyboard = new InlineKeyboard()
   .text("Добавить событие", "auth")
   .row()
   .text("Удалить событие", "auth");
+
+
+export const listOfUsersKeyboard = new InlineKeyboard();
+
+const listOfUsers = await getAllUserNames();
+
+listOfUsers.forEach((user) => {
+    listOfUsersKeyboard.text(user, `user_${user}`);
+    listOfUsersKeyboard.row();
+  });

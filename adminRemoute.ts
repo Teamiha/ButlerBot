@@ -22,4 +22,4 @@ export async function getUser(userId: number) {
 }
 
 // grantAccess(526827458)
-console.log(await getUser(526827458));
+// console.log(await getUser(526827458));

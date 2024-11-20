@@ -1,7 +1,7 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 // import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
 import { BOT_TOKEN } from "./config.ts";
-import { startKeyboard } from "./botStatic/keyboard.ts";
+import { startKeyboard, listOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import {
   testClaudeDailyMessage,
@@ -45,6 +45,12 @@ bot.command("start", async (ctx) => {
   // console.log(`Chat ID: ${chatId}`);
 
   await botStart(ctx);
+});
+
+bot.callbackQuery("listOfUsers", async (ctx) => {
+  await ctx.reply("Список пользователей:", {
+    reply_markup: listOfUsersKeyboard,
+  });
 });
 
 bot.callbackQuery("auth", async (ctx) => {

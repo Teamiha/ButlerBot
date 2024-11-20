@@ -104,6 +104,21 @@ export async function getUser(userId: number) {
   return user;
 }
 
+export async function getAllUserNames(): Promise<string[]> {
+    const kv = await Deno.openKv();
+    const users = kv.list<UserData>({ prefix: ["reltubBot", "userId:"] });
+    const names: string[] = [];
+  
+    for await (const user of users) {
+      if (user.value && user.value.name) {
+        names.push(user.value.name);
+      }
+    }
+
+  await kv.close();
+  return names;
+}
+
 export async function getUserParametr<Key extends keyof UserData>(
   userId: number,
   parametr: Key,
