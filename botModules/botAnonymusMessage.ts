@@ -7,7 +7,6 @@ export async function anonymusMessage(ctx: Context, bot:Bot) {
     const test = await new Promise((resolve) => {
         bot.on("message:text", async (ctx) => {
             resolve(ctx.message.text);
-            // Удаляем обработчик после получения сообщения
         });
     });
 

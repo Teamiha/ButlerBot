@@ -7,13 +7,18 @@ import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { anonymusMessage } from "./botModules/botAnonymusMessage.ts";
 
+import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
+
 
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
 // const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
 // let accessToken = "";
 
+const activeOperations = new Map<number, boolean>();
+
 const bot = new Bot(BOT_TOKEN);
+bot.use(limit())
 
 // bot.callbackQuery("auth", (ctx) => {
 //     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPES.join(
