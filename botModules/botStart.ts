@@ -1,8 +1,8 @@
-import { Context } from "@grammyjs/bot";
+import { MyContext } from "../bot.ts";
 import { hasAccess, updateUser } from "../db.ts";
 import { startKeyboard } from "../botStatic/keyboard.ts";
 
-export async function botStart(ctx: Context) {
+export async function botStart(ctx: MyContext) {
   const userId = ctx.from?.id;
   const userName = ctx.from?.username;
 

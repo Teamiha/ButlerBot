@@ -7,25 +7,22 @@ import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { anonymusMessage } from "./botModules/botAnonymusMessage.ts";
 
-import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
+// import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
 
 
-// const REDIRECT_URI = "http://localhost:8000/oauth2callback";
-// const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
-// let accessToken = "";
+interface MySession {
+    waitingForMessage?: boolean;
+  }
 
-const activeOperations = new Map<number, boolean>();
+export type MyContext = Context & SessionFlavor<MySession>;
 
-const bot = new Bot(BOT_TOKEN);
-bot.use(limit())
+
+const bot = new Bot<MyContext>(BOT_TOKEN);
+
+bot.use(session<MySession, MyContext>())
 
 // bot.callbackQuery("auth", (ctx) => {
-//     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPES.join(
-//       " ",
-//     )}&access_type=offline`;
-//     ctx.reply(`Авторизуйтесь, перейдя по ссылке: ${authUrl}`);
-//   });
 
 bot.command("start", async (ctx) => {
 
@@ -38,13 +35,13 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    await anonymusMessage(ctx, bot)
+    await anonymusMessage(ctx)
   });
 
 
 
 
-testClaudeDailyMessage(bot);
+// testClaudeDailyMessage(bot);
 testDenoDailyMessage(bot);
 testCronDailyMessage(bot);
 

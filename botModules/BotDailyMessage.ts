@@ -1,6 +1,7 @@
 import { cron } from "@cron";
 import { Bot } from "@grammyjs/bot";
 import { CHAT_ID } from "../botStatic/constance.ts";
+import { MyContext } from "../bot.ts";
 
 
 const dailyMessage1 = `Сейчас 11 часов утра, и я, такой молодец, созданный гениальный Михаилом, вам об этом сообщаю!
@@ -35,7 +36,7 @@ DenoCron обмазанный всяким, сработал успешно.
 // const test: Deno.CronSchedule =
 
 
-export function testCronDailyMessage(bot: Bot) {
+export function testCronDailyMessage(bot: Bot<MyContext>) {
 
     cron("0 7 * * *", async () => {
         try {
@@ -48,7 +49,7 @@ export function testCronDailyMessage(bot: Bot) {
     });
 }
 
-export async function testDenoDailyMessage(bot: Bot) {
+export async function testDenoDailyMessage(bot: Bot<MyContext>) {
     Deno.cron("testMessage", "0 8 * * *", async () => { 
         try {
             console.log("Бот проснулся.");
@@ -62,7 +63,7 @@ export async function testDenoDailyMessage(bot: Bot) {
 
 
 
-export async function testClaudeDailyMessage(bot: Bot) {
+export async function testClaudeDailyMessage(bot: Bot<MyContext>) {
     Deno.cron("daily-message", "0 9 * * *", async () => {
         try {
             console.log("Бот проснулся.");
