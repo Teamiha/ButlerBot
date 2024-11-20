@@ -38,7 +38,17 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
-    await anonymusMessage(ctx, bot)
+    await ctx.reply("Привет! Введи своё сообщение.");
+    
+
+    const test = await new Promise((resolve) => {
+        bot.on("message:text", async (ctx) => {
+            resolve(ctx.message.text);
+        });
+    });
+
+
+    await ctx.reply(`Твоё сообщение: ${test}`);
   });
 
 
