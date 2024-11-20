@@ -40,6 +40,11 @@ const bot = new Bot<MyContext>(BOT_TOKEN);
 
 bot.command("start", async (ctx) => {
 
+    if (ctx.chat.type !== "private") {
+        await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
+        return;
+      }
+
     // const chatId = ctx.chat.id;
     // await ctx.reply(`ID этого чата: ${chatId}`);
     // console.log(`Chat ID: ${chatId}`);
