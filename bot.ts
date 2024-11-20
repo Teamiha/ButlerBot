@@ -6,6 +6,8 @@ import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { anonymusMessage } from "./botModules/botAnonymusMessage.ts";
+import { CHAT_ID } from "./botStatic/constance.ts";
+import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 
 // import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
 
@@ -40,7 +42,13 @@ bot.command("start", async (ctx) => {
 
 bot.callbackQuery("anonMessage", async (ctx) => {
     const getMessage = await anonymusMessage(ctx);
-    bot.on("message:text", getMessage);
+    if (getMessage) {
+        await sendMessageToGroup(bot, 526827458, getMessage);
+    } else {
+        console.log("Error get message to send")
+    }
+    // bot.on("message:text", getMessage);
+
   });
 
 

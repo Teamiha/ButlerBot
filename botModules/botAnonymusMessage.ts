@@ -8,11 +8,11 @@ export async function anonymusMessage(ctx: MyContext) {
         const onMessageHandler = async (ctx: MyContext) => {
           if (ctx.session.waitingForMessage) {
             ctx.session.waitingForMessage = false; // Сбрасываем состояние
-            await ctx.reply(`Твоё сообщение: "${ctx.message?.text}"`);
+            // await ctx.reply(`Твоё сообщение: "${ctx.message?.text}"`);
           }
         };
       
-        return onMessageHandler;
+        return ctx.message?.text;
       
 
 }
