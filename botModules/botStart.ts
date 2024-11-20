@@ -10,17 +10,20 @@ export async function botStart(ctx: MyContext) {
     const userHasAccess = await hasAccess(userId);
     const userNameDB = await getUserParametr(userId, "nickName");
 
+    if (userNameDB !== userName && userName !== undefined) {
+        await ctx.reply("Пожалуйста, пройдите регистрацию.", {
+            reply_markup: registrationKeyboard,
+      });  
+      return;
+    };  
+
     if (userHasAccess === true) {
       await ctx.reply("Добро пожаловать! Выберите действие:", {
         reply_markup: startKeyboard,
       });
     }
 
-    if (userNameDB !== userName && userName !== undefined) {
-        await ctx.reply("Пожалуйста, пройдите регистрацию.", {
-            reply_markup: registrationKeyboard,
-      });  
-    };  
+    
     
 
     if (userHasAccess === false) {
