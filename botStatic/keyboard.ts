@@ -1,5 +1,8 @@
 import { InlineKeyboard } from "@grammyjs/bot";
 
+export const registrationKeyboard = new InlineKeyboard()
+  .text("Регистрация", "auth");
+
 export const startKeyboard = new InlineKeyboard()
   .text("Новости", "auth")
   .row()

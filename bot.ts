@@ -1,11 +1,9 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 // import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
 import { BOT_TOKEN } from "./config.ts";
-import {cron} from "@cron"; 
 import { startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { testCronDailyMessage, testClaudeDailyMessage, testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
-import { anonymusMessage } from "./botModules/botAnonymusMessage.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 
@@ -58,16 +56,12 @@ bot.callbackQuery("anonMessage", async (ctx) => {
 
 bot.on("message:text", async (ctx) => {
     if (ctx.session.stage === "anonMessage") {
-        // Retrieve the user's message
         const messageText = ctx.message.text;
 
-        // Reset the session flag
         ctx.session.stage = "null";
 
-        // Send the anonymous message to the specified group
         await sendMessageToGroup(bot, CHAT_ID, messageText);
 
-        // Optionally, inform the user that their message has been sent
         await ctx.reply("Ваше анонимное сообщение отправлено!");
     }
 });

@@ -1,6 +1,6 @@
 import { MyContext } from "../bot.ts";
 import { hasAccess, updateUser } from "../db.ts";
-import { startKeyboard } from "../botStatic/keyboard.ts";
+import { startKeyboard, registrationKeyboard } from "../botStatic/keyboard.ts";
 
 export async function botStart(ctx: MyContext) {
   const userId = ctx.from?.id;
@@ -14,6 +14,15 @@ export async function botStart(ctx: MyContext) {
         reply_markup: startKeyboard,
       });
     }
+    
+    if (userName === "") {
+      await ctx.reply("Пожалуйста, пройдите регистрацию.", {
+        reply_markup: registrationKeyboard,
+      });
+    }
+
+
+
     if (userHasAccess === false) {
       await ctx.reply("У вас нет доступа к этому боту.")
     //   @userinfobot
