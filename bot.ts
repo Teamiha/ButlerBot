@@ -3,11 +3,7 @@ import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
 import { startKeyboard, listOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
-import {
-  testClaudeDailyMessage,
-  testCronDailyMessage,
-  testDenoDailyMessage,
-} from "./botModules/BotDailyMessage.ts";
+import {testDenoDailyMessage} from "./botModules/BotDailyMessage.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
