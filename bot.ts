@@ -1,6 +1,5 @@
-import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
-// import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
-import { BOT_TOKEN } from "./config.ts";
+import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
+import { BOT_TOKEN, GOOGLE_CLIENT_ID, REDIRECT_URI } from "./config.ts";
 import { listOfUsersKeyboard, startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
@@ -48,6 +47,19 @@ bot.callbackQuery("listOfUsers", async (ctx) => {
     reply_markup: listOfUsersKeyboard,
   });
 });
+
+bot.callbackQuery("calendarAuth", async (ctx) => {
+    const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    authUrl.searchParams.set("client_id", GOOGLE_CLIENT_ID);
+    authUrl.searchParams.set("redirect_uri", REDIRECT_URI);
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("scope", "https://www.googleapis.com/auth/calendar.readonly");
+    authUrl.searchParams.set("access_type", "offline");
+    authUrl.searchParams.set("prompt", "consent");
+    authUrl.searchParams.set("state", "admin");
+  
+    await ctx.reply(`Перейдите по этой ссылке для авторизации админа: ${authUrl.toString()}`);
+  });
 
 bot.callbackQuery("auth", async (ctx) => {
   ctx.session.stage = "askName";

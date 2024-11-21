@@ -1,6 +1,6 @@
 export async function yerevanToUTC(yerevanHour: number): Promise<number | 0> {
   if (!Number.isInteger(yerevanHour) || yerevanHour < 0 || yerevanHour > 23) {
-    return 0;
+    throw new Error("Неправильное значение часа.");
   }
 
   let utcHour = yerevanHour - 4;
