@@ -10,7 +10,7 @@ const dailyMessage =
 
 ${weatherMessage}`;
 
-const targetHour = await yerevanToUTC(12);
+const targetHour = Number(await yerevanToUTC(12));
 
 const schedule: Deno.CronSchedule = {
     minute: 0,
