@@ -93,6 +93,5 @@ bot.on("message:text", async (ctx) => {
 
 // testClaudeDailyMessage(bot);
 testDenoDailyMessage(bot);
-testCronDailyMessage(bot);
 
 export { bot };
