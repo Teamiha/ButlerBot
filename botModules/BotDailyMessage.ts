@@ -12,17 +12,17 @@ ${weatherMessage}`;
 
 const targetHour = await yerevanToUTC(12);
 
-const schedule: Deno.CronSchedule = {
-    minute: 0,
-    hour: 8,
-    dayOfMonth: 0,
-    month: 0,
-    dayOfWeek: 0,
-};
+// const schedule: Deno.CronSchedule = {
+//     minute: 0,
+//     hour: 8,
+//     dayOfMonth: 0,
+//     month: 0,
+//     dayOfWeek: 0,
+// };
 
 
 export async function testDenoDailyMessage(bot: Bot<MyContext>) {
-  Deno.cron("testMessage", schedule, async () => {
+  Deno.cron("testMessage", `0 ${targetHour} * * *`, async () => {
     try {
       console.log("Бот проснулся.");
       await bot.api.sendMessage(CHAT_ID, dailyMessage);
