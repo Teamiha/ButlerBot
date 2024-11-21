@@ -1,9 +1,9 @@
 import { Bot, BotError, Context, session, SessionFlavor } from "@grammyjs/bot";
 // import { BOT_TOKEN, CLIENT_ID, CLIENT_SECRET } from "./token.ts";
 import { BOT_TOKEN } from "./config.ts";
-import { startKeyboard, listOfUsersKeyboard } from "./botStatic/keyboard.ts";
+import { listOfUsersKeyboard, startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
-import {testDenoDailyMessage} from "./botModules/BotDailyMessage.ts";
+import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";

@@ -36,12 +36,11 @@ export const calendarKeyboard = new InlineKeyboard()
   .row()
   .text("Удалить событие", "auth");
 
-
 export const listOfUsersKeyboard = new InlineKeyboard();
 
 const listOfUsers = await getAllUserNames();
 
 listOfUsers.forEach((user) => {
-    listOfUsersKeyboard.text(user, `user_${user}`);
-    listOfUsersKeyboard.row();
-  });
+  listOfUsersKeyboard.text(user, `user_${user}`);
+  listOfUsersKeyboard.row();
+});
