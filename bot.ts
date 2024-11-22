@@ -99,7 +99,7 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
-// testClaudeDailyMessage(bot);
-testDenoDailyMessage(bot);
+
+// testDenoDailyMessage(bot);
 
 export { bot };
