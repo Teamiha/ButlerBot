@@ -89,7 +89,7 @@ const tony = { Id: 703883881 };
 
 
 // Функция которую хотим выполнить
-async function testFunc() {
+export async function testFunc() {
     console.log("TestFunc выполнена спустя 10 минут!");
 }
   
