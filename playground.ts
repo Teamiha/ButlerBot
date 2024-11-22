@@ -1,4 +1,7 @@
+import { getKv } from "./botStatic/kvClient.ts";
+
 // const REDIRECT_URI = "http://localhost:8000/oauth2callback";
+
 // const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
 // let accessToken = "";
@@ -96,7 +99,7 @@ export async function testFunc() {
   
 export async function testDelay(){
     console.log("Начало выполнения функции с задержкой");
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   await kv.enqueue({ action: "TEST_FUNC" }, {
   delay: 600000
 });
