@@ -9,7 +9,7 @@ import {
   saveAdminOAuthTokens,
 } from "./calendarDB.ts";
 
-async function refreshAccessToken(
+export async function refreshAccessToken(
   refreshToken: string,
 ): Promise<string | null> {
   const url = "https://oauth2.googleapis.com/token";
@@ -127,7 +127,7 @@ export async function getCalendarEventsForTomorrow(): Promise<
   }
 }
 
-interface GoogleCalendarEvent {
+export interface GoogleCalendarEvent {
   id: string;
   summary: string;
   description?: string;

@@ -86,3 +86,26 @@ const tony = { Id: 703883881 };
 //     console.error("Ошибка при получении событий календаря:", error);
 //   }
 // }
+
+
+// Функция которую хотим выполнить
+async function testFunc() {
+    console.log("TestFunc выполнена спустя 10 минут!");
+}
+  
+  
+export async function testDelay(){
+    console.log("Начало выполнения функции с задержкой");
+  const kv = await Deno.openKv();
+  await kv.enqueue({ action: "TEST_FUNC" }, {
+  delay: 600000
+});
+kv.listenQueue(async (message) => {
+    if (message.action === "TEST_FUNC") {
+      await testFunc();
+    }
+  });
+}
+  
+  
+  
