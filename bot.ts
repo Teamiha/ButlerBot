@@ -87,8 +87,7 @@ bot.on("message:text", async (ctx) => {
 });
 
 // testDenoDailyMessage(bot);
-updateCalendarReminders(bot);
-setupQueueListener(bot);
+
 
 // testDelay();
 

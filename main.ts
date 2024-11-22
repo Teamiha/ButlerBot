@@ -8,7 +8,8 @@ import {
   REDIRECT_URI,
 } from "./config.ts";
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
-
+import { setupQueueListener } from "./helpers.ts";
+import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
 // Get the token from environment variable
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
 if (!BOT_TOKEN) {
@@ -87,4 +88,6 @@ Deno.serve(async (req) => {
 });
 
 scheduleDailyReminders(bot);
+updateCalendarReminders(bot);
+setupQueueListener(bot);
 // console.log("Ежедневные напоминания запланированы.");
