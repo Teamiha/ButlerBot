@@ -37,4 +37,4 @@ export async function getAdminOAuthTokensRemoute(): Promise<
 
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
-// console.log(await getAdminOAuthTokens());
+console.log(await getAdminOAuthTokensRemoute());

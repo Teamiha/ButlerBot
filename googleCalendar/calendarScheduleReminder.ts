@@ -5,8 +5,22 @@ import { CHAT_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
 
+interface GoogleCalendarEvent {
+  id: string;
+  summary: string;
+  description?: string;
+  start: {
+    dateTime?: string;
+    date?: string;
+  };
+  end: {
+    dateTime?: string;
+    date?: string;
+  };
+}
+
 interface Notification {
-  forUser: string;
+  forUser: number;
   body: string;
 }
 
@@ -41,7 +55,7 @@ export async function scheduleDailyReminders(bot: Bot<MyContext>) {
       }
 
       const notification: Notification = {
-        forUser: "userId", // Замените на реальный идентификатор пользователя
+        forUser: CHAT_ID,
         body: `⏰ Напоминание: ${event.summary}\n${event.description || ""}`,
       };
 

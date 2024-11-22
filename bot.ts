@@ -6,6 +6,7 @@ import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
 import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
+import { setupQueueListener } from "./helpers.ts";
 
 export interface SessionData {
   stage:
@@ -86,5 +87,5 @@ bot.on("message:text", async (ctx) => {
 
 // testDenoDailyMessage(bot);
 updateCalendarReminders(bot);
-
+setupQueueListener(bot);
 export { bot };

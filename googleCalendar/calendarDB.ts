@@ -16,6 +16,7 @@ export async function saveAdminOAuthTokens(tokens: OAuthTokens): Promise<void> {
 export async function getAdminOAuthTokens(): Promise<OAuthTokens | null> {
   const kv = await Deno.openKv();
   const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
+  console.log("Токены извлечены из KV:", result.value);
   await kv.close();
   return result.value || null;
 }
