@@ -9,9 +9,6 @@ import { updateCalendarReminders } from "./googleCalendar/calendarScheduleRemind
 import { setupQueueListener } from "./helpers.ts";
 
 
-import { testDelay } from "./playground.ts";
-import { testFunc } from "./playground.ts";
-
 export interface SessionData {
   stage:
     | "anonMessage"
@@ -95,12 +92,7 @@ setupQueueListener(bot);
 
 // testDelay();
 
-const kv = await Deno.openKv();
-kv.listenQueue(async (message) => {
-    if (message.action === "TEST_FUNC") {
-      await testFunc();
-    }
-  });
+
 
 
 
