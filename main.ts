@@ -87,7 +87,7 @@ Deno.serve(async (req) => {
   }
 });
 
-scheduleDailyReminders(bot);
-updateCalendarReminders(bot);
-setupQueueListener(bot);
+// scheduleDailyReminders(bot);
+// updateCalendarReminders(bot);
+// setupQueueListener(bot);
 // console.log("Ежедневные напоминания запланированы.");
