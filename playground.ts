@@ -89,18 +89,18 @@ const tony = { Id: 703883881 };
 
 
 // Функция которую хотим выполнить
-// export async function testFunc() {
-//     console.log("TestFunc выполнена спустя 10 минут!");
-// }
+export async function testFunc() {
+    console.log("TestFunc выполнена спустя 10 минут!");
+}
   
   
-// export async function testDelay(){
-//     console.log("Начало выполнения функции с задержкой");
-//   const kv = await Deno.openKv();
-//   await kv.enqueue({ action: "TEST_FUNC" }, {
-//   delay: 600000
-// });
-// }
+export async function testDelay(){
+    console.log("Начало выполнения функции с задержкой");
+  const kv = await Deno.openKv();
+  await kv.enqueue({ action: "TEST_FUNC" }, {
+  delay: 600000
+});
+}
   
 
   

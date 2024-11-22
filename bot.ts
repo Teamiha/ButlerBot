@@ -7,7 +7,8 @@ import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
 import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
 import { setupQueueListener } from "./helpers.ts";
-
+import { testDelay, testFunc } from "./playground.ts";
+import { getKv } from "./botStatic/kvClient.ts";
 
 export interface SessionData {
   stage:
@@ -89,9 +90,15 @@ bot.on("message:text", async (ctx) => {
 // testDenoDailyMessage(bot);
 
 
-// testDelay();
+testDelay();
 
+const kv = await getKv();
 
+kv.listenQueue(async (message) => {
+    if (message.action === "TEST_FUNC") {
+      await testFunc();
+    }
+  });
 
 
 
