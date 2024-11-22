@@ -1,5 +1,5 @@
 import { Bot } from "@grammyjs/bot";
-import { getCalendarEventsForTomorrow } from "../googleCalendar/calendarSevice.ts";
+import { getCalendarEventsForTomorrow } from "./calendarSevice.ts";
 import { CHAT_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
@@ -52,4 +52,19 @@ export async function scheduleDailyReminders(bot: Bot<MyContext>) {
   } catch (error) {
     console.error("Ошибка при получении событий календаря:", error);
   }
+}
+
+export async function updateCalendarReminders(bot: Bot<MyContext>) {
+  Deno.cron("updateCalendarReminders", `0 7 * * *`, async () => {
+    try {
+      console.log("Бот проснулся.");
+      await scheduleDailyReminders(bot);
+      console.log("Утренее обновление напоминаний завершено.");
+    } catch (error) {
+      console.error(
+        "Ошибка при утренем обновлении напоминаний:",
+        error,
+      );
+    }
+  });
 }

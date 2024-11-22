@@ -6,7 +6,7 @@ import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
-
+import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
 // import { limit } from "https://deno.land/x/grammy_ratelimiter@v1.2.0/mod.ts";
 
 export interface SessionData {
@@ -101,5 +101,6 @@ bot.on("message:text", async (ctx) => {
 
 
 // testDenoDailyMessage(bot);
+updateCalendarReminders(bot);
 
 export { bot };
