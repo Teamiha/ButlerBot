@@ -1,5 +1,6 @@
 import { Bot } from "@grammyjs/bot";
 import { MyContext } from "./bot.ts";
+import { getKv } from "./kvClient.ts";
 
 export async function yerevanToUTC(yerevanHour: number): Promise<number | 0> {
   if (!Number.isInteger(yerevanHour) || yerevanHour < 0 || yerevanHour > 23) {
@@ -23,12 +24,11 @@ interface Notification {
   
   // Функция для добавления уведомления в очередь
   export async function enqueueNotification(notification: Notification, delay: number = 0) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
   // Добавляем уведомление в очередь с указанной задержкой
   await kv.enqueue(notification, { delay });
 
-  await kv.close();
 }
 
 function isNotification(o: unknown): o is Notification {
@@ -40,7 +40,7 @@ function isNotification(o: unknown): o is Notification {
   
 // Настройка слушателя очереди
 export async function setupQueueListener(bot: Bot<MyContext>) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
     kv.listenQueue(async (msg: unknown) => {
       if (isNotification(msg)) {
