@@ -3,8 +3,8 @@
  * Выполняется локально.
  */
 
-const GOOGLE_CLIENT_ID = "";
-const REDIRECT_URI = "";
+const GOOGLE_CLIENT_ID = "807770638319-l83slf1o30vd5k7cs996j18t9i7tgcch.apps.googleusercontent.com";
+const REDIRECT_URI = "https://mikhail-butlerbot-63.deno.dev/oauth2callback";
 
 async function authenticate() {
   const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
