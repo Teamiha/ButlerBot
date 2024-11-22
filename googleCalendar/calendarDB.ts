@@ -9,6 +9,7 @@ export interface OAuthTokens {
 export async function saveAdminOAuthTokens(tokens: OAuthTokens): Promise<void> {
   const kv = await Deno.openKv();
   await kv.set(["admin", "oauthTokens"], tokens);
+  console.log("Токены успешно сохранены:", tokens);
   await kv.close();
 }
 

@@ -47,6 +47,7 @@ async function refreshAccessToken(
         tokens.expiry_date = Date.now() + expiresIn * 1000;
       }
       await saveAdminOAuthTokens(tokens);
+      console.log("Токены обновлены:", tokens);
     }
 
     return newAccessToken;
@@ -60,6 +61,7 @@ export async function getCalendarEventsForTomorrow(): Promise<
   GoogleCalendarEvent[]
 > {
   const tokens = await getAdminOAuthTokens();
+  console.log("Полученные токены:", tokens);
   if (!tokens || !tokens.access_token) {
     throw new Error("OAuth токены админа недоступны.");
   }

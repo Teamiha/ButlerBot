@@ -22,10 +22,10 @@ export async function getUser(userId: number) {
   return user.value;
 }
 
-async function getAdminOAuthTokens() {
-  const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
-  return result.value;
-}
+// async function getAdminOAuthTokens() {
+//   const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
+//   return result.value;
+// }
 
 export async function getAdminOAuthTokensRemoute(): Promise<
   OAuthTokens | null
