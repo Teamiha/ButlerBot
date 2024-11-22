@@ -2,7 +2,9 @@ export const BOT_TOKEN = Deno.env.get("BOT_TOKEN") || "";
 export const OPENWEATHER_API_KEY = Deno.env.get("OPENWEATHER_API_KEY") || "";
 export const GOOGLE_CLIENT_ID = Deno.env.get("GOOGLE_CLIENT_ID") || "";
 export const GOOGLE_CLIENT_SECRET = Deno.env.get("GOOGLE_CLIENT_SECRET") || "";
-export const REDIRECT_URI = Deno.env.get("REDIRECT_URI") || "https://yourdomain.com/oauth2callback";
+export const REDIRECT_URI = Deno.env.get("REDIRECT_URI") ||
+  "https://yourdomain.com/oauth2callback";
+export const SUPERUSER = Deno.env.get("SUPERUSER") || "";
 
 if (!BOT_TOKEN) {
   throw new Error("BOT_TOKEN environment variable is required");
@@ -22,4 +24,8 @@ if (!GOOGLE_CLIENT_SECRET) {
 
 if (!REDIRECT_URI) {
   throw new Error("REDIRECT_URI environment variable is required");
+}
+
+if (!SUPERUSER) {
+  throw new Error("SUPERUSER environment variable is required");
 }

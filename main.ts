@@ -2,7 +2,11 @@ import { webhookCallback } from "@grammyjs/bot";
 import { bot } from "./bot.ts";
 import { saveAdminOAuthTokens } from "./googleCalendar/calendarDB.ts";
 import { scheduleDailyReminders } from "./googleCalendar/calendarScheduleReminder.ts";
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI } from "./config.ts";
+import {
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  REDIRECT_URI,
+} from "./config.ts";
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
 
 // Get the token from environment variable
@@ -23,7 +27,7 @@ Deno.serve(async (req) => {
     if (url.pathname === "/oauth2callback") {
       const code = url.searchParams.get("code");
       const state = url.searchParams.get("state"); // Ожидаем "admin"
-  
+
       if (code && state === "admin") {
         try {
           const params = new URLSearchParams();
@@ -32,7 +36,7 @@ Deno.serve(async (req) => {
           params.append("client_secret", GOOGLE_CLIENT_SECRET);
           params.append("redirect_uri", REDIRECT_URI);
           params.append("grant_type", "authorization_code");
-  
+
           const response = await fetch("https://oauth2.googleapis.com/token", {
             method: "POST",
             headers: {
@@ -40,18 +44,21 @@ Deno.serve(async (req) => {
             },
             body: params.toString(),
           });
-  
+
           if (!response.ok) {
             const errorText = await response.text();
             console.error("Ошибка при обмене кода на токены:", errorText);
             return new Response("Ошибка авторизации.", { status: 500 });
           }
-  
+
           const tokens: OAuthTokens = await response.json();
           await saveAdminOAuthTokens(tokens);
-  
+
           // Отправка простого HTML ответа
-          return new Response("Авторизация прошла успешно! Можете закрыть это окно.", { status: 200, headers: { "Content-Type": "text/html" } });
+          return new Response(
+            "Авторизация прошла успешно! Можете закрыть это окно.",
+            { status: 200, headers: { "Content-Type": "text/html" } },
+          );
         } catch (error) {
           console.error("Ошибка при обработке OAuth callback:", error);
           return new Response("Ошибка авторизации.", { status: 500 });
@@ -78,8 +85,6 @@ Deno.serve(async (req) => {
     return new Response("Error", { status: 500 });
   }
 });
-
-
 
 scheduleDailyReminders(bot);
 // console.log("Ежедневные напоминания запланированы.");

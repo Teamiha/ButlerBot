@@ -12,7 +12,6 @@ ${weatherMessage}`;
 
 const targetHour = await yerevanToUTC(12);
 
-
 export async function testDenoDailyMessage(bot: Bot<MyContext>) {
   Deno.cron("testMessage", `0 ${targetHour} * * *`, async () => {
     try {

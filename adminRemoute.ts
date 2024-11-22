@@ -22,18 +22,18 @@ export async function getUser(userId: number) {
   return user.value;
 }
 
-async function getAdminOAuthTokens() {  
+async function getAdminOAuthTokens() {
   const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
   return result.value;
 }
 
-export async function getAdminOAuthTokensRemoute(): Promise<OAuthTokens | null> {
-    
-    const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
-    
-    return result.value || null;
-  }
+export async function getAdminOAuthTokensRemoute(): Promise<
+  OAuthTokens | null
+> {
+  const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
 
+  return result.value || null;
+}
 
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
