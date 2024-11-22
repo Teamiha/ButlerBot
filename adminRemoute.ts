@@ -1,4 +1,5 @@
 import type { UserData } from "./db.ts";
+import type { OAuthTokens } from "./googleCalendar/calendarDB.ts";
 
 const kv = await Deno.openKv(
   "https://api.deno.com/databases/2e98651c-42ea-4252-87db-2d523699ec9b/connect",
@@ -21,5 +22,19 @@ export async function getUser(userId: number) {
   return user.value;
 }
 
+async function getAdminOAuthTokens() {  
+  const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
+  return result.value;
+}
+
+export async function getAdminOAuthTokensRemoute(): Promise<OAuthTokens | null> {
+    
+    const result = await kv.get<OAuthTokens>(["admin", "oauthTokens"]);
+    
+    return result.value || null;
+  }
+
+
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
+// console.log(await getAdminOAuthTokens());

@@ -85,7 +85,7 @@ export async function getCalendarEventsForTomorrow(): Promise<GoogleCalendarEven
   const timeMaxISOString = timeMax.toISOString();
 
   // Формируем URL запроса к Google Calendar API
-  const calendarId = "primary";
+  const calendarId = "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
   const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?timeMin=${encodeURIComponent(timeMinISOString)}&timeMax=${encodeURIComponent(timeMaxISOString)}&singleEvents=true&orderBy=startTime`;
 
   try {

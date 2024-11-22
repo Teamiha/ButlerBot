@@ -1,4 +1,4 @@
-import { getAdminOAuthTokens } from "./calendarDB.ts";
+import { getAdminOAuthTokensRemoute } from "../adminRemoute.ts";
 
 
 export interface Calendar {
@@ -11,7 +11,7 @@ export interface Calendar {
   }
   
   export async function listAllCalendars(): Promise<Calendar[]> {
-    const tokens = await getAdminOAuthTokens();
+    const tokens = await getAdminOAuthTokensRemoute();
     if (!tokens || !tokens.access_token) {
       throw new Error("OAuth токены админа недоступны.");
     }

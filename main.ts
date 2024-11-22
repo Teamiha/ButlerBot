@@ -82,4 +82,4 @@ Deno.serve(async (req) => {
 
 
 scheduleDailyReminders(bot);
-console.log("Ежедневные напоминания запланированы.");
+// console.log("Ежедневные напоминания запланированы.");
