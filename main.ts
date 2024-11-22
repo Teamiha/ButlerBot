@@ -79,9 +79,7 @@ Deno.serve(async (req) => {
   }
 });
 
-bot.start({
-  onStart: async () => {
-    scheduleDailyReminders(bot);
-    console.log("Ежедневные напоминания запланированы.");
-  }
-});
+
+
+scheduleDailyReminders(bot);
+console.log("Ежедневные напоминания запланированы.");
