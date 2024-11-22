@@ -100,12 +100,7 @@ export async function testDelay(){
   await kv.enqueue({ action: "TEST_FUNC" }, {
   delay: 600000
 });
-kv.listenQueue(async (message) => {
-    if (message.action === "TEST_FUNC") {
-      await testFunc();
-    }
-  });
 }
   
-  
+
   

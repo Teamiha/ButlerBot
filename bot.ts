@@ -92,5 +92,13 @@ setupQueueListener(bot);
 
 testDelay();
 
+const kv = await Deno.openKv();
+kv.listenQueue(async (message) => {
+    if (message.action === "TEST_FUNC") {
+      await testFunc();
+    }
+  });
+
+
 
 export { bot };
