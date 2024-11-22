@@ -11,3 +11,19 @@ export async function yerevanToUTC(yerevanHour: number): Promise<number | 0> {
 
   return utcHour;
 }
+
+
+interface Notification {
+    forUser: string;
+    body: string;
+  }
+  
+  // Функция для добавления уведомления в очередь
+  export async function enqueueNotification(notification: Notification, delay: number = 0) {
+    const kv = await Deno.openKv();
+    
+  // Добавляем уведомление в очередь с указанной задержкой
+  await kv.enqueue(notification, { delay });
+
+  await kv.close();
+}
