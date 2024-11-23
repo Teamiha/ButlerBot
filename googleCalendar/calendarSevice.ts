@@ -61,7 +61,13 @@ export async function getCalendarEventsForTomorrow(): Promise<
   GoogleCalendarEvent[]
 > {
   const tokens = await getAdminOAuthTokens();
-  console.log("Полученные токены:", tokens);
+  console.log("Полученные токены:", {
+    access_token: tokens?.access_token ? `${tokens.access_token.substring(0, 10)}...` : 'отсутствует',
+    refresh_token: tokens?.refresh_token ? 'присутствует' : 'отсутствует',
+    expiry_date: tokens?.expiry_date ? new Date(tokens.expiry_date).toISOString() : 'отсутствует',
+    current_time: new Date().toISOString()
+  });
+
   if (!tokens || !tokens.access_token) {
     throw new Error("OAuth токены админа недоступны.");
   }
@@ -70,17 +76,18 @@ export async function getCalendarEventsForTomorrow(): Promise<
 
   // Проверяем, истек ли access_token
   if (tokens.expiry_date && Date.now() >= tokens.expiry_date) {
+    console.log("Токен истек, пытаемся обновить");
     if (tokens.refresh_token) {
       const refreshedToken = await refreshAccessToken(tokens.refresh_token);
       if (refreshedToken) {
         accessToken = refreshedToken;
+        console.log("Токен успешно обновлен");
       } else {
+        console.error("Не удалось обновить токен");
         throw new Error("Не удалось обновить access_token.");
       }
     } else {
-      throw new Error(
-        "Refresh token отсутствует. Требуется повторная авторизация.",
-      );
+      throw new Error("Refresh token отсутствует. Требуется повторная авторизация.");
     }
   }
 
