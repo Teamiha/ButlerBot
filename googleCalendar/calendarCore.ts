@@ -51,3 +51,22 @@ export async function saveGoogleEvent() {
     console.error("Ошибка при сохранении событий в Deno.kv:", error);
   }
 }
+
+
+
+async function initializeQueueListener() {
+  const kv = await getKv();
+  await kv.listenQueue(async (message) => {
+    if (message.action === "TEST_FUNC") {
+      try {
+        // await testFunc();
+        await kv.delete(["TEST_FUNC_PENDING"]);
+        console.log("TestFunc успешно выполнена и отметка удалена.");
+      } catch (error) {
+        console.error("Ошибка при выполнении testFunc:", error);
+        // Здесь можно реализовать логику повторной попытки или уведомления
+      }
+    }
+  });
+}
+
