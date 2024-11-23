@@ -129,7 +129,7 @@ export async function deleteTestFuncPending(){
       const kv = await getKv();
       const existing = await kv.get(["TEST_FUNC_PENDING"]);
       if (existing) {
-        console.log("Тестовая функция уже запланирована.");
+        console.log(`Тестовая функция уже запланирована. ${existing}`);
         return;
       }
 
