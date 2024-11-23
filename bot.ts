@@ -64,6 +64,13 @@ bot.callbackQuery("anonMessage", async (ctx) => {
   await ctx.reply("Напиши своё сообщение:");
 });
 
+bot.callbackQuery(/^user_/, async (ctx) => {
+    const userName = ctx.callbackQuery.data.replace('user_', '');
+    console.log(`Выбран пользователь: ${userName}`);
+  await ctx.reply(`Вы выбрали пользователя: ${userName}`);
+});
+
+
 bot.on("message:text", async (ctx) => {
   if (ctx.session.stage === "anonMessage") {
     const messageText = ctx.message.text;
