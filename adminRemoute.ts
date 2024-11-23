@@ -42,7 +42,7 @@ async function getGoogleEvents(): Promise<GoogleCalendarEvent[]> {
 
     // Получаем все записи с префиксом "Google_event"
     const eventsIterator = kv.list<GoogleCalendarEvent>({
-      prefix: ["Google_event"],
+      prefix: ["reltubBot", "Google_event"],
     });
 
     for await (const entry of eventsIterator) {
@@ -62,6 +62,7 @@ async function getGoogleEventById(
 ): Promise<GoogleCalendarEvent | null> {
   try {
     const event = await kv.get<GoogleCalendarEvent>([
+      "reltubBot",
       "Google_event",
       `event:${eventId}`,
     ]);

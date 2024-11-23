@@ -47,7 +47,7 @@ export async function refreshAccessToken(
         tokens.expiry_date = Date.now() + expiresIn * 1000;
       }
       await saveAdminOAuthTokens(tokens);
-      console.log("Токены обновлены:", tokens);
+      console.log("Токены обновлены");
     }
 
     return newAccessToken;
@@ -57,20 +57,9 @@ export async function refreshAccessToken(
   }
 }
 
-export async function getCalendarEventsForTomorrow(): Promise<
-  GoogleCalendarEvent[]
-> {
+export async function getCalendarEventsForNext24Hours(): Promise<GoogleCalendarEvent[]> {
   const tokens = await getAdminOAuthTokens();
-  console.log("Полученные токены:", {
-    access_token: tokens?.access_token
-      ? `${tokens.access_token.substring(0, 10)}...`
-      : "отсутствует",
-    refresh_token: tokens?.refresh_token ? "присутствует" : "отсутствует",
-    expiry_date: tokens?.expiry_date
-      ? new Date(tokens.expiry_date).toISOString()
-      : "отсутствует",
-    current_time: new Date().toISOString(),
-  });
+  console.log("Полученные токены");
 
   if (!tokens || !tokens.access_token) {
     throw new Error("OAuth токены админа недоступны.");
@@ -97,22 +86,15 @@ export async function getCalendarEventsForTomorrow(): Promise<
     }
   }
 
-  // Определяем время завтрашнего дня в ISO формате
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-
-  const timeMin = new Date(tomorrow);
-  timeMin.setHours(0, 0, 0, 0);
+  // Определяем временной интервал в 24 часа от текущего момента
+  const timeMin = new Date();
+  const timeMax = new Date(timeMin.getTime() + 24 * 60 * 60 * 1000);
+  
   const timeMinISOString = timeMin.toISOString();
-
-  const timeMax = new Date(tomorrow);
-  timeMax.setHours(23, 59, 59, 999);
   const timeMaxISOString = timeMax.toISOString();
 
   // Формируем URL запроса к Google Calendar API
-  const calendarId =
-    "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
+  const calendarId = "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
   const url = `https://www.googleapis.com/calendar/v3/calendars/${
     encodeURIComponent(calendarId)
   }/events?timeMin=${encodeURIComponent(timeMinISOString)}&timeMax=${
