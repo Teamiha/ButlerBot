@@ -9,7 +9,8 @@ import { updateCalendarReminders } from "./googleCalendar/calendarScheduleRemind
 import { setupQueueListener } from "./helpers.ts";
 import { testDelay, testFunc } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";
-
+import { saveGoogleEvent } from "./googleCalendar/calendarScheduleReminder.ts";
+import { deleteTestFuncPending } from "./playground.ts";
 export interface SessionData {
   stage:
     | "anonMessage"
@@ -89,6 +90,9 @@ bot.on("message:text", async (ctx) => {
 
 // testDenoDailyMessage(bot);
 
+// saveGoogleEvent();
+
+deleteTestFuncPending().catch(console.error);
 
 testDelay().catch(console.error);
 

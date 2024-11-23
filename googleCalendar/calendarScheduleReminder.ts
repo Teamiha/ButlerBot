@@ -4,6 +4,7 @@ import { getCalendarEventsForTomorrow } from "./calendarSevice.ts";
 import { CHAT_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
+import { getKv } from "../botStatic/kvClient.ts";
 
 interface GoogleCalendarEvent {
   id: string;
@@ -81,4 +82,26 @@ export async function updateCalendarReminders(bot: Bot<MyContext>) {
       );
     }
   });
+}
+
+export async function saveGoogleEvent() {
+  try {
+    const events = await getCalendarEventsForTomorrow();
+
+    for (const event of events) {
+      const googleEvent: GoogleCalendarEvent = {
+        id: event.id,
+        summary: event.summary,
+        description: event.description,
+        start: event.start,
+        end: event.end,
+      };
+      const kv = await getKv();
+      await kv.set(["Google_event", `event:${event.id}`], googleEvent);
+    }
+
+    console.log("Все события сохранены в Deno.kv.");
+  } catch (error) {
+    console.error("Ошибка при сохранении событий в Deno.kv:", error);
+  }
 }
