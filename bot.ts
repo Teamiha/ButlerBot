@@ -92,7 +92,7 @@ bot.on("message:text", async (ctx) => {
 
 // saveGoogleEvent();
 
-deleteTestFuncPending().catch(console.error);
+await deleteTestFuncPending().catch(console.error);
 
 testDelay().catch(console.error);
 
