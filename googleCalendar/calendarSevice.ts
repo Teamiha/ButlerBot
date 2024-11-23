@@ -74,9 +74,9 @@ export async function getCalendarEventsForTomorrow(): Promise<
 
   let accessToken = tokens.access_token;
 
-  // Проверяем, истек ли access_token
-  if (tokens.expiry_date && Date.now() >= tokens.expiry_date) {
-    console.log("Токен истек, пытаемся обновить");
+  // Если expiry_date отсутствует или токен истек, обновляем его
+  if (!tokens.expiry_date || Date.now() >= tokens.expiry_date) {
+    console.log("Токен истек или отсутствует expiry_date, пытаемся обновить");
     if (tokens.refresh_token) {
       const refreshedToken = await refreshAccessToken(tokens.refresh_token);
       if (refreshedToken) {
