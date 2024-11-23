@@ -109,3 +109,5 @@ async function initializeQueueListener() {
 }
 
 initializeQueueListener().catch(console.error);
+
+export { bot };
