@@ -96,14 +96,35 @@ export async function testFunc() {
     console.log("TestFunc выполнена спустя 10 минут!");
 }
   
+// export async function testDelay(){
+//     console.log("Начало выполнения функции с задержкой");
+//     try {
+//       const kv = await getKv();
+//       await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
+//       console.log("Сообщение добавлено в очередь успешно.");
+//     } catch (error) {
+//       console.error("Ошибка при добавлении сообщения в очередь:", error);
+//       // Здесь можно реализовать логику повторной попытки или уведомления
+//     }
+//   }
   
-export async function testDelay(){
+
+  export async function testDelay(){
     console.log("Начало выполнения функции с задержкой");
-  const kv = await getKv();
-  await kv.enqueue({ action: "TEST_FUNC" }, {
-  delay: 600000
-});
-}
-  
+    try {
+      const kv = await getKv();
+      const existing = await kv.get(["TEST_FUNC_PENDING"]);
+      if (existing) {
+        console.log("Тестовая функция уже запланирована.");
+        return;
+      }
+
+      await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
+      await kv.set(["TEST_FUNC_PENDING"], true, { expireIn: 600000 });
+      console.log("Сообщение добавлено в очередь и помечено как запланированное.");
+    } catch (error) {
+      console.error("Ошибка при добавлении сообщения в очередь:", error);
+    }
+  }
 
   

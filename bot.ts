@@ -90,16 +90,22 @@ bot.on("message:text", async (ctx) => {
 // testDenoDailyMessage(bot);
 
 
-testDelay();
+testDelay().catch(console.error);
 
-const kv = await getKv();
-
-kv.listenQueue(async (message) => {
+async function initializeQueueListener() {
+  const kv = await getKv();
+  await kv.listenQueue(async (message) => {
     if (message.action === "TEST_FUNC") {
-      await testFunc();
+      try {
+        await testFunc();
+        await kv.delete(["TEST_FUNC_PENDING"]);
+        console.log("TestFunc успешно выполнена и отметка удалена.");
+      } catch (error) {
+        console.error("Ошибка при выполнении testFunc:", error);
+        // Здесь можно реализовать логику повторной попытки или уведомления
+      }
     }
   });
+}
 
-
-
-export { bot };
+initializeQueueListener().catch(console.error);
