@@ -11,6 +11,11 @@ import { testDelay, testFunc } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";
 import { saveGoogleEvent } from "./googleCalendar/calendarScheduleReminder.ts";
 import { deleteTestFuncPending } from "./playground.ts";
+import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
+
+
+
+
 export interface SessionData {
   stage:
     | "anonMessage"
@@ -42,6 +47,10 @@ bot.command("start", async (ctx) => {
   // console.log(`Chat ID: ${chatId}`);
   ctx.session.stage = "null";
   await botStart(ctx);
+});
+
+bot.callbackQuery("testCron", async (ctx) => {
+//   await testDenoDailyMessage(bot);
 });
 
 bot.callbackQuery("listOfUsers", async (ctx) => {
@@ -90,7 +99,7 @@ bot.on("message:text", async (ctx) => {
 
 // testDenoDailyMessage(bot);
 
-// saveGoogleEvent();
+saveGoogleEvent();
 
 // await deleteTestFuncPending().catch(console.error);
 

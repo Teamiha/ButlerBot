@@ -10,7 +10,7 @@ export const startKeyboard = new InlineKeyboard()
   .row()
   .text("Анонимное сообщение", "anonMessage")
   .row()
-  .text("Полезная информация", "auth")
+  .text("Тест крона", "testCron")
   .row()
   .text("Админский раздел", "listOfUsers");
 
