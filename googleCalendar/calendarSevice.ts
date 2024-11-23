@@ -110,12 +110,19 @@ export async function getCalendarEventsForTomorrow(): Promise<
     const response = await fetch(url, {
       headers: {
         "Authorization": `Bearer ${accessToken}`,
+        "Accept": "application/json",
       },
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Ошибка при получении событий календаря:", errorText);
+    if (!response.ok) {const errorText = await response.text();
+        console.error("Ошибка при получении событий календаря:", {
+          status: response.status,
+          statusText: response.statusText,
+          errorText,
+          requestUrl: url,
+          // Добавим отладочную информацию о токене (только первые несколько символов)
+          tokenPreview: accessToken.substring(0, 10) + "..."
+      });
       throw new Error(`Google Calendar API error: ${response.statusText}`);
     }
 

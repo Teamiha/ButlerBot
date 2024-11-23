@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
 });
 
 
-testDelay().catch(console.error);
+
 
 async function initializeQueueListener() {
   const kv = await getKv();
@@ -118,7 +118,9 @@ async function initializeQueueListener() {
   });
 }
 
-initializeQueueListener().catch(console.error);
+// testDelay().catch(console.error);
+
+// initializeQueueListener().catch(console.error);
 
 
 // scheduleDailyReminders(bot);
