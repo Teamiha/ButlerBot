@@ -7,13 +7,14 @@ import {
   REDIRECT_URI,
 } from "./config.ts";
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
-import { updateCalendarReminders } from "./googleCalendar/calendarCore.ts";
+import {
+  updateCalendarReminders,
+  initializeQueueListener,
+  saveGoogleEvent,
+  setupDelayedEvent,
+  getAllEvents,
+} from "./googleCalendar/calendarCore.ts";
 
-import { testDelay } from "./playground.ts";
-import { getKv } from "./botStatic/kvClient.ts";
-import { testFunc } from "./playground.ts";
-
-// Get the token from environment variable
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
 if (!BOT_TOKEN) {
   throw new Error("BOT_TOKEN is not set");
@@ -90,27 +91,10 @@ Deno.serve(async (req) => {
   }
 });
 
-async function initializeQueueListener() {
-  const kv = await getKv();
-  await kv.listenQueue(async (message) => {
-    if (message.action === "TEST_FUNC") {
-      try {
-        await testFunc();
-        await kv.delete(["TEST_FUNC_PENDING"]);
-        console.log("TestFunc успешно выполнена и отметка удалена.");
-      } catch (error) {
-        console.error("Ошибка при выполнении testFunc:", error);
-        // Здесь можно реализовать логику повторной попытки или уведомления
-      }
-    }
-  });
-}
+await saveGoogleEvent().catch(console.error);
 
-// testDelay().catch(console.error);
+await setupDelayedEvent(await getAllEvents()).catch(console.error);
 
-// initializeQueueListener().catch(console.error);
+await updateCalendarReminders(bot).catch(console.error);
 
-// scheduleDailyReminders(bot);
-// updateCalendarReminders(bot);
-// setupQueueListener(bot);
-// console.log("Ежедневные напоминания запланированы.");
+await initializeQueueListener(bot).catch(console.error);

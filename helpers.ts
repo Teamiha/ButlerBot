@@ -15,6 +15,3 @@ export async function yerevanToUTC(yerevanHour: number): Promise<number | 0> {
 
   return utcHour;
 }
-
-
-

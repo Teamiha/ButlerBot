@@ -146,21 +146,21 @@ export async function testFunc() {
 //       // Здесь можно реализовать логику повторной попытки или уведомления
 //     }
 //   }
-export async function deleteTestFuncPending() {
-  console.log("Начало выявления и удаления отметки");
-  try {
-    const kv = await getKv();
-    const existing = await kv.get(["TEST_FUNC_PENDING"]);
-    if (existing.value !== null) {
-      await kv.delete(["TEST_FUNC_PENDING"]);
-      console.log("Отметка удалена");
-    } else {
-      console.log("Отметка не найдена");
-    }
-  } catch (error) {
-    console.error("Ошибка при удалении отметки:", error);
-  }
-}
+// export async function deleteTestFuncPending() {
+//   console.log("Начало выявления и удаления отметки");
+//   try {
+//     const kv = await getKv();
+//     const existing = await kv.get(["TEST_FUNC_PENDING"]);
+//     if (existing.value !== null) {
+//       await kv.delete(["TEST_FUNC_PENDING"]);
+//       console.log("Отметка удалена");
+//     } else {
+//       console.log("Отметка не найдена");
+//     }
+//   } catch (error) {
+//     console.error("Ошибка при удалении отметки:", error);
+//   }
+// }
 
 export async function testDelay() {
   console.log("Начало выполнения функции с задержкой");

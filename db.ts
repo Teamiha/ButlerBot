@@ -30,7 +30,6 @@ export async function createNewUser(userId: number) {
   };
 
   await kv.set(["reltubBot", "userId:", userId], newUserData);
-
 }
 
 export async function updateUser<Key extends keyof UserData>(
@@ -60,7 +59,6 @@ export async function grantAccess(userId: number) {
     accessList.push(userId);
     await kv.set(["reltubBot", "accessList"], accessList);
   }
-
 }
 
 export async function revokeAccess(userId: number) {
@@ -72,7 +70,6 @@ export async function revokeAccess(userId: number) {
   const updatedList = accessList.filter((id) => id !== userId);
 
   await kv.set(["reltubBot", "accessList"], updatedList);
-
 }
 
 export async function hasAccess(userId: number): Promise<boolean> {
@@ -106,7 +103,7 @@ export async function getAllUserNames(): Promise<string[]> {
       names.push(user.value.name);
     }
   }
-  
+
   return names;
 }
 

@@ -57,7 +57,9 @@ export async function refreshAccessToken(
   }
 }
 
-export async function getCalendarEventsForNext24Hours(): Promise<GoogleCalendarEvent[]> {
+export async function getCalendarEventsForNext24Hours(): Promise<
+  GoogleCalendarEvent[]
+> {
   const tokens = await getAdminOAuthTokens();
   console.log("Полученные токены");
 
@@ -89,12 +91,13 @@ export async function getCalendarEventsForNext24Hours(): Promise<GoogleCalendarE
   // Определяем временной интервал в 24 часа от текущего момента
   const timeMin = new Date();
   const timeMax = new Date(timeMin.getTime() + 24 * 60 * 60 * 1000);
-  
+
   const timeMinISOString = timeMin.toISOString();
   const timeMaxISOString = timeMax.toISOString();
 
   // Формируем URL запроса к Google Calendar API
-  const calendarId = "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
+  const calendarId =
+    "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
   const url = `https://www.googleapis.com/calendar/v3/calendars/${
     encodeURIComponent(calendarId)
   }/events?timeMin=${encodeURIComponent(timeMinISOString)}&timeMax=${

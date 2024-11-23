@@ -9,7 +9,6 @@ import { updateCalendarReminders } from "./googleCalendar/calendarCore.ts";
 import { testDelay, testFunc } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";
 import { saveGoogleEvent } from "./googleCalendar/calendarCore.ts";
-import { deleteTestFuncPending } from "./playground.ts";
 import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 
 export interface SessionData {
@@ -92,17 +91,5 @@ bot.on("message:text", async (ctx) => {
     await ctx.reply("Введите команду /start для начала.");
   }
 });
-
-// testDenoDailyMessage(bot);
-
-// saveGoogleEvent();
-
-// await deleteTestFuncPending().catch(console.error);
-
-// testDelay().catch(console.error);
-
-
-
-// initializeQueueListener().catch(console.error);
 
 export { bot };
