@@ -33,10 +33,6 @@ import { getKv } from "./botStatic/kvClient.ts";
 
 const tony = { Id: 703883881 };
 
-
-
-
-
 // import { enqueueNotification } from "./notificationQueue.ts";
 // import { Bot } from "@grammyjs/bot";
 // import { MyContext } from "../bot.ts";
@@ -49,7 +45,7 @@ const tony = { Id: 703883881 };
 // export async function scheduleDailyReminders(bot: Bot<MyContext>) {
 //   try {
 //     const events = await getCalendarEventsForTomorrow();
-    
+
 //     for (const event of events) {
 //       if (!event.start || (!event.start.dateTime && !event.start.date)) {
 //         continue;
@@ -90,12 +86,11 @@ const tony = { Id: 703883881 };
 //   }
 // }
 
-
 // Функция которую хотим выполнить
 export async function testFunc() {
-    console.log("TestFunc выполнена спустя 10 минут!");
+  console.log("TestFunc выполнена спустя 10 минут!");
 }
-  
+
 // export async function testDelay(){
 //     console.log("Начало выполнения функции с задержкой");
 //     try {
@@ -107,38 +102,38 @@ export async function testFunc() {
 //       // Здесь можно реализовать логику повторной попытки или уведомления
 //     }
 //   }
-export async function deleteTestFuncPending(){
-    console.log("Начало выявления и удаления отметки");
-    try {
-      const kv = await getKv();
-      const existing = await kv.get(["TEST_FUNC_PENDING"]);
-      if (existing.value !== null) {
-        await kv.delete(["TEST_FUNC_PENDING"]);
-        console.log("Отметка удалена");
-      } else {
-        console.log("Отметка не найдена");
-      }
+export async function deleteTestFuncPending() {
+  console.log("Начало выявления и удаления отметки");
+  try {
+    const kv = await getKv();
+    const existing = await kv.get(["TEST_FUNC_PENDING"]);
+    if (existing.value !== null) {
+      await kv.delete(["TEST_FUNC_PENDING"]);
+      console.log("Отметка удалена");
+    } else {
+      console.log("Отметка не найдена");
+    }
   } catch (error) {
     console.error("Ошибка при удалении отметки:", error);
   }
 }
 
-  export async function testDelay(){
-    console.log("Начало выполнения функции с задержкой");
-    try {
-      const kv = await getKv();
-      const existing = await kv.get(["TEST_FUNC_PENDING"]);
-      if (existing.value !== null) {
-        console.log(`Тестовая функция уже запланирована. ${existing.value}`);
-        return;
-      }
-
-      await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
-      await kv.set(["TEST_FUNC_PENDING"], true, { expireIn: 600000 });
-      console.log("Сообщение добавлено в очередь и помечено как запланированное.");
-    } catch (error) {
-      console.error("Ошибка при добавлении сообщения в очередь:", error);
+export async function testDelay() {
+  console.log("Начало выполнения функции с задержкой");
+  try {
+    const kv = await getKv();
+    const existing = await kv.get(["TEST_FUNC_PENDING"]);
+    if (existing.value !== null) {
+      console.log(`Тестовая функция уже запланирована. ${existing.value}`);
+      return;
     }
-  }
 
-  
+    await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
+    await kv.set(["TEST_FUNC_PENDING"], true, { expireIn: 600000 });
+    console.log(
+      "Сообщение добавлено в очередь и помечено как запланированное.",
+    );
+  } catch (error) {
+    console.error("Ошибка при добавлении сообщения в очередь:", error);
+  }
+}

@@ -11,16 +11,9 @@ import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
 import { setupQueueListener } from "./helpers.ts";
 import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
 
-
-
 import { testDelay } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";
 import { testFunc } from "./playground.ts";
-
-
-
-
-
 
 // Get the token from environment variable
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
@@ -99,9 +92,6 @@ Deno.serve(async (req) => {
   }
 });
 
-
-
-
 async function initializeQueueListener() {
   const kv = await getKv();
   await kv.listenQueue(async (message) => {
@@ -121,7 +111,6 @@ async function initializeQueueListener() {
 // testDelay().catch(console.error);
 
 // initializeQueueListener().catch(console.error);
-
 
 // scheduleDailyReminders(bot);
 // updateCalendarReminders(bot);

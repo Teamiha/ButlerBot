@@ -62,10 +62,14 @@ export async function getCalendarEventsForTomorrow(): Promise<
 > {
   const tokens = await getAdminOAuthTokens();
   console.log("Полученные токены:", {
-    access_token: tokens?.access_token ? `${tokens.access_token.substring(0, 10)}...` : 'отсутствует',
-    refresh_token: tokens?.refresh_token ? 'присутствует' : 'отсутствует',
-    expiry_date: tokens?.expiry_date ? new Date(tokens.expiry_date).toISOString() : 'отсутствует',
-    current_time: new Date().toISOString()
+    access_token: tokens?.access_token
+      ? `${tokens.access_token.substring(0, 10)}...`
+      : "отсутствует",
+    refresh_token: tokens?.refresh_token ? "присутствует" : "отсутствует",
+    expiry_date: tokens?.expiry_date
+      ? new Date(tokens.expiry_date).toISOString()
+      : "отсутствует",
+    current_time: new Date().toISOString(),
   });
 
   if (!tokens || !tokens.access_token) {
@@ -87,7 +91,9 @@ export async function getCalendarEventsForTomorrow(): Promise<
         throw new Error("Не удалось обновить access_token.");
       }
     } else {
-      throw new Error("Refresh token отсутствует. Требуется повторная авторизация.");
+      throw new Error(
+        "Refresh token отсутствует. Требуется повторная авторизация.",
+      );
     }
   }
 
@@ -121,14 +127,15 @@ export async function getCalendarEventsForTomorrow(): Promise<
       },
     });
 
-    if (!response.ok) {const errorText = await response.text();
-        console.error("Ошибка при получении событий календаря:", {
-          status: response.status,
-          statusText: response.statusText,
-          errorText,
-          requestUrl: url,
-          // Добавим отладочную информацию о токене (только первые несколько символов)
-          tokenPreview: accessToken.substring(0, 10) + "..."
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Ошибка при получении событий календаря:", {
+        status: response.status,
+        statusText: response.statusText,
+        errorText,
+        requestUrl: url,
+        // Добавим отладочную информацию о токене (только первые несколько символов)
+        tokenPreview: accessToken.substring(0, 10) + "...",
       });
       throw new Error(`Google Calendar API error: ${response.statusText}`);
     }

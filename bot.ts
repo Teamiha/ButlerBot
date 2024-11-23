@@ -13,9 +13,6 @@ import { saveGoogleEvent } from "./googleCalendar/calendarScheduleReminder.ts";
 import { deleteTestFuncPending } from "./playground.ts";
 import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 
-
-
-
 export interface SessionData {
   stage:
     | "anonMessage"
@@ -50,7 +47,7 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("testCron", async (ctx) => {
-//   await testDenoDailyMessage(bot);
+  //   await testDenoDailyMessage(bot);
 });
 
 bot.callbackQuery("listOfUsers", async (ctx) => {

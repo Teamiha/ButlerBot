@@ -12,4 +12,4 @@ export async function closeKv() {
     await kvInstance.close();
     kvInstance = null;
   }
-} 
+}

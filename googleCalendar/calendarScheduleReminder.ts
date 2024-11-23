@@ -28,7 +28,7 @@ interface Notification {
 export async function scheduleDailyReminders(bot: Bot<MyContext>) {
   try {
     const events = await getCalendarEventsForTomorrow();
-    
+
     for (const event of events) {
       if (!event.start || (!event.start.dateTime && !event.start.date)) {
         continue;
