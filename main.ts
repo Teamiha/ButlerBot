@@ -1,15 +1,13 @@
 import { webhookCallback } from "@grammyjs/bot";
 import { bot } from "./bot.ts";
 import { saveAdminOAuthTokens } from "./googleCalendar/calendarDB.ts";
-import { scheduleDailyReminders } from "./googleCalendar/calendarScheduleReminder.ts";
 import {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   REDIRECT_URI,
 } from "./config.ts";
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
-import { setupQueueListener } from "./helpers.ts";
-import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
+import { updateCalendarReminders } from "./googleCalendar/calendarCore.ts";
 
 import { testDelay } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";

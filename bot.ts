@@ -5,11 +5,10 @@ import { botStart } from "./botModules/botStart.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
-import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
-import { setupQueueListener } from "./helpers.ts";
+import { updateCalendarReminders } from "./googleCalendar/calendarCore.ts";
 import { testDelay, testFunc } from "./playground.ts";
 import { getKv } from "./botStatic/kvClient.ts";
-import { saveGoogleEvent } from "./googleCalendar/calendarScheduleReminder.ts";
+import { saveGoogleEvent } from "./googleCalendar/calendarCore.ts";
 import { deleteTestFuncPending } from "./playground.ts";
 import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
 

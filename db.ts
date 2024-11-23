@@ -31,7 +31,6 @@ export async function createNewUser(userId: number) {
 
   await kv.set(["reltubBot", "userId:", userId], newUserData);
 
-  await kv.close();
 }
 
 export async function updateUser<Key extends keyof UserData>(
@@ -49,7 +48,6 @@ export async function updateUser<Key extends keyof UserData>(
   } else {
     console.log("Запись не найдена");
   }
-  await kv.close();
 }
 
 export async function grantAccess(userId: number) {
@@ -63,7 +61,6 @@ export async function grantAccess(userId: number) {
     await kv.set(["reltubBot", "accessList"], accessList);
   }
 
-  await kv.close();
 }
 
 export async function revokeAccess(userId: number) {
@@ -76,7 +73,6 @@ export async function revokeAccess(userId: number) {
 
   await kv.set(["reltubBot", "accessList"], updatedList);
 
-  await kv.close();
 }
 
 export async function hasAccess(userId: number): Promise<boolean> {
@@ -84,8 +80,6 @@ export async function hasAccess(userId: number): Promise<boolean> {
 
   const result = await kv.get<number[]>(["reltubBot", "accessList"]);
   const accessList = result.value || [];
-
-  await kv.close();
 
   return accessList.includes(userId);
 }
@@ -97,10 +91,8 @@ export async function getUser(userId: number) {
     await createNewUser(userId);
     const newUserData = await kv.get(["reltubBot", "userId:", userId]);
     console.log("new user");
-    await kv.close();
     return newUserData;
   }
-  await kv.close();
   return user;
 }
 
@@ -114,8 +106,7 @@ export async function getAllUserNames(): Promise<string[]> {
       names.push(user.value.name);
     }
   }
-
-  await kv.close();
+  
   return names;
 }
 

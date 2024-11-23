@@ -16,8 +16,6 @@ async function grantAccess(userId: number) {
     accessList.push(userId);
     await kv.set(["reltubBot", "accessList"], accessList);
   }
-
-  await kv.close();
 }
 
 export async function getUser(userId: number) {
