@@ -8,11 +8,11 @@ import {
 } from "./config.ts";
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
 import {
-  updateCalendarReminders,
+  getAllEvents,
   initializeQueueListener,
   saveGoogleEvent,
   setupDelayedEvent,
-  getAllEvents,
+  updateCalendarReminders,
 } from "./googleCalendar/calendarCore.ts";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");

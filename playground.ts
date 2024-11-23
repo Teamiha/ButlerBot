@@ -162,22 +162,26 @@ export async function testFunc() {
 //   }
 // }
 
-export async function testDelay() {
-  console.log("Начало выполнения функции с задержкой");
-  try {
-    const kv = await getKv();
-    const existing = await kv.get(["TEST_FUNC_PENDING"]);
-    if (existing.value !== null) {
-      console.log(`Тестовая функция уже запланирована. ${existing.value}`);
-      return;
-    }
+// const chatId = ctx.chat.id;
+// await ctx.reply(`ID этого чата: ${chatId}`);
+// console.log(`Chat ID: ${chatId}`);
 
-    await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
-    await kv.set(["TEST_FUNC_PENDING"], true, { expireIn: 600000 });
-    console.log(
-      "Сообщение добавлено в очередь и помечено как запланированное.",
-    );
-  } catch (error) {
-    console.error("Ошибка при добавлении сообщения в очередь:", error);
-  }
-}
+// export async function testDelay() {
+//   console.log("Начало выполнения функции с задержкой");
+//   try {
+//     const kv = await getKv();
+//     const existing = await kv.get(["TEST_FUNC_PENDING"]);
+//     if (existing.value !== null) {
+//       console.log(`Тестовая функция уже запланирована. ${existing.value}`);
+//       return;
+//     }
+
+//     await kv.enqueue({ action: "TEST_FUNC" }, { delay: 600000 });
+//     await kv.set(["TEST_FUNC_PENDING"], true, { expireIn: 600000 });
+//     console.log(
+//       "Сообщение добавлено в очередь и помечено как запланированное.",
+//     );
+//   } catch (error) {
+//     console.error("Ошибка при добавлении сообщения в очередь:", error);
+//   }
+// }

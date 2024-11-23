@@ -5,11 +5,8 @@ import { botStart } from "./botModules/botStart.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { updateUser } from "./db.ts";
-import { updateCalendarReminders } from "./googleCalendar/calendarCore.ts";
-import { testDelay, testFunc } from "./playground.ts";
-import { getKv } from "./botStatic/kvClient.ts";
-import { saveGoogleEvent } from "./googleCalendar/calendarCore.ts";
-import { testDenoDailyMessage } from "./botModules/BotDailyMessage.ts";
+import { info } from "./botStatic/info.ts";
+import { botAdminZone } from "./botModules/botAdminZone.ts";
 
 export interface SessionData {
   stage:
@@ -29,29 +26,28 @@ bot.use(session({
   }),
 }));
 
-// bot.callbackQuery("auth", (ctx) => {
-
 bot.command("start", async (ctx) => {
   if (ctx.chat.type !== "private") {
     await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
     return;
   }
 
-  // const chatId = ctx.chat.id;
-  // await ctx.reply(`ID этого чата: ${chatId}`);
-  // console.log(`Chat ID: ${chatId}`);
   ctx.session.stage = "null";
   await botStart(ctx);
 });
 
-bot.callbackQuery("testCron", async (ctx) => {
-  //   await testDenoDailyMessage(bot);
+bot.callbackQuery("adminZone", async (ctx) => {
+  await botAdminZone(ctx);
 });
 
 bot.callbackQuery("listOfUsers", async (ctx) => {
   await ctx.reply("Список пользователей:", {
     reply_markup: listOfUsersKeyboard,
   });
+});
+
+bot.callbackQuery("info", async (ctx) => {
+  await ctx.reply(info);
 });
 
 bot.callbackQuery("auth", async (ctx) => {

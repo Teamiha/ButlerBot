@@ -6,13 +6,13 @@ export const registrationKeyboard = new InlineKeyboard()
 export const startKeyboard = new InlineKeyboard()
   .text("Новости", "auth")
   .row()
-  .text("Авторизация в Google Calendar", "calendarAuth")
+  .text("Информация", "info")
   .row()
   .text("Анонимное сообщение", "anonMessage")
   .row()
   .text("Тест крона", "testCron")
   .row()
-  .text("Админский раздел", "listOfUsers");
+  .text("Админский раздел", "adminZone");
 
 export const adminKeyboard = new InlineKeyboard()
   .text("Написать новость", "auth")
