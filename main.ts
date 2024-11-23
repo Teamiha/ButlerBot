@@ -10,6 +10,18 @@ import {
 import { OAuthTokens } from "./googleCalendar/calendarDB.ts";
 import { setupQueueListener } from "./helpers.ts";
 import { updateCalendarReminders } from "./googleCalendar/calendarScheduleReminder.ts";
+
+
+
+import { testDelay } from "./playground.ts";
+import { getKv } from "./botStatic/kvClient.ts";
+import { testFunc } from "./playground.ts";
+
+
+
+
+
+
 // Get the token from environment variable
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
 if (!BOT_TOKEN) {
@@ -88,7 +100,25 @@ Deno.serve(async (req) => {
 });
 
 
+testDelay().catch(console.error);
 
+async function initializeQueueListener() {
+  const kv = await getKv();
+  await kv.listenQueue(async (message) => {
+    if (message.action === "TEST_FUNC") {
+      try {
+        await testFunc();
+        await kv.delete(["TEST_FUNC_PENDING"]);
+        console.log("TestFunc успешно выполнена и отметка удалена.");
+      } catch (error) {
+        console.error("Ошибка при выполнении testFunc:", error);
+        // Здесь можно реализовать логику повторной попытки или уведомления
+      }
+    }
+  });
+}
+
+initializeQueueListener().catch(console.error);
 
 
 // scheduleDailyReminders(bot);

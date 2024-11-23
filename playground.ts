@@ -112,7 +112,7 @@ export async function deleteTestFuncPending(){
     try {
       const kv = await getKv();
       const existing = await kv.get(["TEST_FUNC_PENDING"]);
-      if (existing) {
+      if (existing.value !== null) {
         await kv.delete(["TEST_FUNC_PENDING"]);
         console.log("Отметка удалена");
       } else {

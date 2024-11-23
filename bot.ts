@@ -92,26 +92,26 @@ bot.on("message:text", async (ctx) => {
 
 // saveGoogleEvent();
 
-await deleteTestFuncPending().catch(console.error);
+// await deleteTestFuncPending().catch(console.error);
 
-testDelay().catch(console.error);
+// testDelay().catch(console.error);
 
-async function initializeQueueListener() {
-  const kv = await getKv();
-  await kv.listenQueue(async (message) => {
-    if (message.action === "TEST_FUNC") {
-      try {
-        await testFunc();
-        await kv.delete(["TEST_FUNC_PENDING"]);
-        console.log("TestFunc успешно выполнена и отметка удалена.");
-      } catch (error) {
-        console.error("Ошибка при выполнении testFunc:", error);
-        // Здесь можно реализовать логику повторной попытки или уведомления
-      }
-    }
-  });
-}
+// async function initializeQueueListener() {
+//   const kv = await getKv();
+//   await kv.listenQueue(async (message) => {
+//     if (message.action === "TEST_FUNC") {
+//       try {
+//         await testFunc();
+//         await kv.delete(["TEST_FUNC_PENDING"]);
+//         console.log("TestFunc успешно выполнена и отметка удалена.");
+//       } catch (error) {
+//         console.error("Ошибка при выполнении testFunc:", error);
+//         // Здесь можно реализовать логику повторной попытки или уведомления
+//       }
+//     }
+//   });
+// }
 
-initializeQueueListener().catch(console.error);
+// initializeQueueListener().catch(console.error);
 
 export { bot };
