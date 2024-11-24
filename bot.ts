@@ -80,8 +80,7 @@ bot.on("message:text", async (ctx) => {
   if (ctx.session.stage === "anonMessage") {
     const messageText = ctx.message.text;
     ctx.session.stage = "null";
-    await sendMessageToGroup(bot, CHAT_ID, messageText);
-    await ctx.reply("Ваше анонимное сообщение отправлено!");
+    await sendMessageToGroup(ctx, CHAT_ID, messageText);
   } else if (ctx.session.stage === "askName") {
     const messageText = ctx.message.text;
     await updateUser(ctx.from?.id, "name", messageText);
