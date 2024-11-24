@@ -1,4 +1,4 @@
-import { getKv } from "./kvClient.ts";
+import { getKv } from "./botStatic/kvClient.ts";
 
 export interface UserData {
   nickName: string;

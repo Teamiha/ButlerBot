@@ -1,10 +1,13 @@
+import { getKv } from "../botStatic/kvClient.ts";
+
+
 export interface Task {
   taskText: string;
   taskStatus: boolean;
 }
 
 export async function addTask(taskText: string): Promise<void> {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   const task: Task = {
     taskText,
     taskStatus: false,
@@ -14,7 +17,7 @@ export async function addTask(taskText: string): Promise<void> {
 }
 
 export async function deleteTask(): Promise<void> {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   await kv.delete(["reltubBot", "task"]);
   console.log("Задача успешно удалена");
 }
@@ -38,7 +41,7 @@ export async function toggleTaskStatus(): Promise<void> {
 }
 
 export async function getCastleTasks(): Promise<Task | null> {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   const result = await kv.get<Task>(["reltubBot", "task"]);
   return result.value || null;
 }
