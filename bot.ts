@@ -1,6 +1,6 @@
 import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
-import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard } from "./botStatic/keyboard.ts";
+import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard, castleProcessKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
@@ -12,6 +12,7 @@ import {
 } from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
+import { transferTaskStatus, addTask } from "./tasksSystem/taskDb.ts";
 
 export interface SessionData {
   stage:
@@ -19,7 +20,8 @@ export interface SessionData {
     | "askName"
     | "askBirthDate"
     | "null"
-    | "addUser";
+    | "addUser"
+    | "addTask";
 }
 
 export type MyContext = Context & SessionFlavor<SessionData>;
@@ -105,6 +107,25 @@ bot.callbackQuery("taskManager", async (ctx) => {
   });
 });
 
+bot.callbackQuery("addTask", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  ctx.session.stage = "addTask";
+  await ctx.reply("Напишите текст задачи:");
+});
+
+bot.callbackQuery("castleProcess", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.reply("Список текущих задач Замка:", {
+    reply_markup: castleProcessKeyboard,
+  });
+});
+
+bot.callbackQuery(/^task_/, async (ctx) => {
+  await ctx.answerCallbackQuery();
+  const taskText = ctx.callbackQuery.data.replace("task_", "");
+  console.log(`Была выбрана задача: ${taskText}`);
+});
+
 bot.callbackQuery(/^user_/, async (ctx) => {
   await ctx.answerCallbackQuery();
   const userName = ctx.callbackQuery.data.replace("user_", "");
@@ -146,6 +167,11 @@ bot.on("message:text", async (ctx) => {
     await grantAccess(Number(messageText));
     ctx.session.stage = "null";
     await ctx.reply("Доступ предоставлен!");
+  } else if (ctx.session.stage === "addTask") {
+    const messageText = ctx.message.text;
+    await addTask(messageText);
+    ctx.session.stage = "null";
+    await ctx.reply("Задача добавлена!");
   }
 });
 
