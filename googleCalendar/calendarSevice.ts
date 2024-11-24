@@ -93,7 +93,6 @@ export async function getCalendarEventsForNext24Hours(): Promise<
   const timeMinISOString = timeMin.toISOString();
   const timeMaxISOString = timeMax.toISOString();
 
-
   const calendarId =
     "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
   const url = `https://www.googleapis.com/calendar/v3/calendars/${

@@ -4,7 +4,12 @@ import { listOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
-import { grantAccess, revokeAccess, updateUser, getUserIdByName } from "./db.ts";
+import {
+  getUserIdByName,
+  grantAccess,
+  revokeAccess,
+  updateUser,
+} from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
 
@@ -70,24 +75,22 @@ bot.callbackQuery("anonMessage", async (ctx) => {
   await ctx.reply("Напиши своё сообщение:");
 });
 
-
 bot.callbackQuery("addUser", async (ctx) => {
-    await ctx.reply("Выберите пользователя для удаления:", {
-        reply_markup: listOfUsersKeyboard,
-      });
+  await ctx.reply("Выберите пользователя для удаления:", {
+    reply_markup: listOfUsersKeyboard,
+  });
 });
 
 bot.callbackQuery("deleteUser", async (ctx) => {
-    await ctx.reply("Введите ID пользователя:");
-    
+  await ctx.reply("Введите ID пользователя:");
 });
 
 bot.callbackQuery(/^user_/, async (ctx) => {
-    const userName = ctx.callbackQuery.data.replace('user_', '');
-    const userId = await getUserIdByName(userName);
-  
+  const userName = ctx.callbackQuery.data.replace("user_", "");
+  const userId = await getUserIdByName(userName);
+
   const previousMessage = ctx.callbackQuery.message?.text;
-  
+
   if (!userId) {
     await ctx.reply(`Не удалось найти пользователя ${userName}.`);
     return;
@@ -96,9 +99,8 @@ bot.callbackQuery(/^user_/, async (ctx) => {
   if (previousMessage?.includes("для удаления")) {
     await revokeAccess(userId);
     await ctx.reply(`Пользователь ${userName} успешно удален.`);
-  } 
+  }
 });
-
 
 bot.on("message:text", async (ctx) => {
   if (ctx.session.stage === "anonMessage") {

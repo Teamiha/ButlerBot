@@ -4,7 +4,6 @@ import { IDESOS_GROUP_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
 
-
 export async function scheduleDailyReminders(bot: Bot<MyContext>) {
   try {
     const events = await getCalendarEventsForTomorrow();
@@ -40,7 +39,10 @@ export async function scheduleDailyReminders(bot: Bot<MyContext>) {
 
       setTimeout(async () => {
         try {
-          await bot.api.sendMessage(IDESOS_GROUP_ID, `⏰ Напоминание: ${event.summary}\n${event.description || ""}`);
+          await bot.api.sendMessage(
+            IDESOS_GROUP_ID,
+            `⏰ Напоминание: ${event.summary}\n${event.description || ""}`,
+          );
           console.log(`Напоминание о событии "${event.summary}" отправлено.`);
         } catch (error) {
           console.error(`Ошибка при отправке напоминания:`, error);

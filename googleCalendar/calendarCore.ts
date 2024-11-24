@@ -35,7 +35,7 @@ export async function cleanupPastEvents() {
     for await (const entry of eventsIterator) {
       const event = entry.value;
       const eventEndTime = event.end.dateTime || event.end.date;
-      
+
       if (!eventEndTime) {
         console.log(`Событие ${event.id} не имеет времени окончания`);
         continue;

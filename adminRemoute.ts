@@ -73,6 +73,10 @@ async function getGoogleEventById(
   }
 }
 
+async function addAdmin(userId: number) {
+  await kv.set(["admin", "userId:", userId], userId);
+}
+
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
 // console.log(await getAdminOAuthTokensRemoute());
