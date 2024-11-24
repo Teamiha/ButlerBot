@@ -46,7 +46,7 @@ export const calendarKeyboard = new InlineKeyboard()
 
 export const castleProcessKeyboard = new InlineKeyboard();
 
-const listOfCastleProcess = await getCastleProcess();
+// const listOfCastleProcess = await getCastleProcess();
 
 
 
