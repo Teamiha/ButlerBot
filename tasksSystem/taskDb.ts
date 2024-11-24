@@ -40,8 +40,20 @@ export async function toggleTaskStatus(): Promise<void> {
   console.log("Статус задачи успешно обновлен");
 }
 
-export async function getCastleTasks(): Promise<Task | null> {
+async function getCastleTasks(): Promise<Task | null> {
   const kv = await getKv();
   const result = await kv.get<Task>(["reltubBot", "task"]);
   return result.value || null;
+}
+
+export async function transferTaskStatus(): Promise<string[]> {
+  const task = await getCastleTasks();
+  if (!task) {
+    return [];
+  }
+
+  const checkMark = "✅";
+  const crossMark = "❌";
+  
+  return [`${task.taskText} ${task.taskStatus ? checkMark : crossMark}`];
 }

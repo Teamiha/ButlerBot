@@ -1,5 +1,8 @@
 import { InlineKeyboard } from "@grammyjs/bot";
 import { getAllUserNames } from "../db.ts";
+import { transferTaskStatus } from "../tasksSystem/taskDb.ts";
+
+
 export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
 
@@ -46,8 +49,12 @@ export const calendarKeyboard = new InlineKeyboard()
 
 export const castleProcessKeyboard = new InlineKeyboard();
 
-// const listOfCastleProcess = await getCastleProcess();
+const listOfCastleProcess = await transferTaskStatus();
 
+listOfCastleProcess.forEach((task) => {
+  castleProcessKeyboard.text(task, `task_${task}`);
+  castleProcessKeyboard.row();
+});
 
 
 export const listOfUsersKeyboard = new InlineKeyboard();
