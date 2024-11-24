@@ -13,6 +13,7 @@ import {
   saveGoogleEvent,
   setupDelayedEvent,
   updateCalendarReminders,
+  cleanupPastEvents,
 } from "./googleCalendar/calendarCore.ts";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
@@ -90,6 +91,8 @@ Deno.serve(async (req) => {
     return new Response("Error", { status: 500 });
   }
 });
+
+await cleanupPastEvents().catch(console.error);
 
 await saveGoogleEvent().catch(console.error);
 
