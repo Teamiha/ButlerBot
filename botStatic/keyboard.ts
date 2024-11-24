@@ -13,6 +13,8 @@ export const startKeyboard = new InlineKeyboard()
   .row()
   .text("Анонимное сообщение", "anonMessage")
   .row()
+  .text("Добавить вещь в глобальный виш-лист", "addWish")
+  .row()
   .text("Админский раздел", "adminZone");
 
 export const adminKeyboard = new InlineKeyboard()
