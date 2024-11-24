@@ -8,6 +8,22 @@ import {
   OAuthTokens,
   saveAdminOAuthTokens,
 } from "./calendarDB.ts";
+import { IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID } from "../botStatic/constance.ts";
+
+export interface GoogleCalendarEvent {
+  id: string;
+  summary: string;
+  description?: string;
+  start: {
+    dateTime?: string;
+    date?: string;
+  };
+  end: {
+    dateTime?: string;
+    date?: string;
+  };
+  calendarId: string;
+}
 
 export async function refreshAccessToken(
   refreshToken: string,
@@ -57,7 +73,7 @@ export async function refreshAccessToken(
   }
 }
 
-export async function getCalendarEventsForNext24Hours(): Promise<
+export async function getCalendarEventsForNext24Hours(ID: string): Promise<
   GoogleCalendarEvent[]
 > {
   const tokens = await getAdminOAuthTokens();
@@ -93,8 +109,7 @@ export async function getCalendarEventsForNext24Hours(): Promise<
   const timeMinISOString = timeMin.toISOString();
   const timeMaxISOString = timeMax.toISOString();
 
-  const calendarId =
-    "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
+  const calendarId = ID;
   const url = `https://www.googleapis.com/calendar/v3/calendars/${
     encodeURIComponent(calendarId)
   }/events?timeMin=${encodeURIComponent(timeMinISOString)}&timeMax=${
@@ -129,16 +144,4 @@ export async function getCalendarEventsForNext24Hours(): Promise<
   }
 }
 
-export interface GoogleCalendarEvent {
-  id: string;
-  summary: string;
-  description?: string;
-  start: {
-    dateTime?: string;
-    date?: string;
-  };
-  end: {
-    dateTime?: string;
-    date?: string;
-  };
-}
+

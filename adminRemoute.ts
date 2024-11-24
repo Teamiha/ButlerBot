@@ -92,4 +92,4 @@ export async function addAdmin(userId: number) {
 // console.log(await getAdminOAuthTokensRemoute());
 
 // console.log(await getGoogleEvents());
-addAdmin(526827458);    
+// addAdmin(526827458);    

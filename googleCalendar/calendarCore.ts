@@ -1,11 +1,13 @@
 import { Bot } from "@grammyjs/bot";
 import { getCalendarEventsForNext24Hours } from "./calendarSevice.ts";
-import { IDESOS_GROUP_ID } from "../botStatic/constance.ts";
+import { IDESOS_GROUP_ID, CASTLE_PUBLIC_GROUP_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
 import { getKv } from "../botStatic/kvClient.ts";
 import { GoogleCalendarEvent } from "./calendarSevice.ts";
 import { sendCalendarEventToGroup } from "../botModules/botSendCalendarIvent.ts";
+import { IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID } from "../botStatic/constance.ts";
+
 
 export async function updateCalendarReminders(bot: Bot<MyContext>) {
   Deno.cron("updateCalendarReminders", `0 3 * * *`, async () => {
@@ -59,33 +61,37 @@ export async function cleanupPastEvents() {
 
 export async function saveGoogleEvent() {
   try {
-    const events = await getCalendarEventsForNext24Hours();
+    const calendars = [IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID];
     const kv = await getKv();
 
-    for (const event of events) {
-      // Проверяем существование события в базе
-      const existingEvent = await kv.get([
-        "reltubBot",
-        "Google_event",
-        `event:${event.id}`,
-      ]);
-      if (existingEvent.value) {
-        console.log(`Событие с ID ${event.id} уже существует в базе`);
-        continue;
-      }
+    for (const calendarId of calendars) {
+      const events = await getCalendarEventsForNext24Hours(calendarId);
 
-      const googleEvent: GoogleCalendarEvent = {
-        id: event.id,
-        summary: event.summary,
-        description: event.description,
-        start: event.start,
-        end: event.end,
-      };
-      await kv.set(
-        ["reltubBot", "Google_event", `event:${event.id}`],
-        googleEvent,
-      );
-      console.log(`Событие с ID ${event.id} успешно сохранено`);
+      for (const event of events) {
+        const existingEvent = await kv.get([
+          "reltubBot",
+          "Google_event",
+          `event:${event.id}`,
+        ]);
+        if (existingEvent.value) {
+          console.log(`Событие с ID ${event.id} уже существует в базе`);
+          continue;
+        }
+
+        const googleEvent: GoogleCalendarEvent = {
+          id: event.id,
+          summary: event.summary,
+          description: event.description,
+          start: event.start,
+          end: event.end,
+          calendarId: calendarId,
+        };
+        await kv.set(
+          ["reltubBot", "Google_event", `event:${event.id}`],
+          googleEvent,
+        );
+        console.log(`Событие с ID ${event.id} успешно сохранено`);
+      }
     }
 
     console.log("Обработка новых событий завершена");
@@ -184,10 +190,26 @@ export async function initializeQueueListener(bot: Bot<MyContext>) {
           console.error("Получено сообщение без eventId");
           return;
         }
-        await sendCalendarEventToGroup(bot, IDESOS_GROUP_ID, message.eventId);
+
+        const eventEntry = await kv.get<GoogleCalendarEvent>([
+          "reltubBot",
+          "Google_event",
+          `event:${message.eventId}`,
+        ]);
+
+        if (!eventEntry.value) {
+          console.error(`Событие с ID ${message.eventId} не найдено`);
+          return;
+        }
+
+        const targetGroupId = eventEntry.value.calendarId === IDESOS_CALENDAR_ID
+          ? IDESOS_GROUP_ID
+          : CASTLE_PUBLIC_GROUP_ID;
+
+        await sendCalendarEventToGroup(bot, targetGroupId, message.eventId);
         await kv.delete(["reltubBot", "delayedEvent", message.eventId]);
         console.log(
-          `Уведомление для события ${message.eventId} успешно отправлено`,
+          `Уведомление для события ${message.eventId} успешно отправлено в группу ${targetGroupId}`,
         );
       } catch (error) {
         console.error("Ошибка при отправке уведомления о событии:", error);
