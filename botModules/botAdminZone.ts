@@ -1,13 +1,14 @@
 import { MyContext } from "../bot.ts";
 import { SUPERUSER } from "../config.ts";
 import { adminKeyboard } from "../botStatic/keyboard.ts";
+import { getKv } from "../botStatic/kvClient.ts";
 
 async function hasAdminAccess(userId: number): Promise<boolean> {
   if (userId === Number(SUPERUSER)) {
     return true;
   }
 
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
   const result = await kv.get<number[]>(["reltubBot", "adminList"]);
   const adminList = result.value || [];

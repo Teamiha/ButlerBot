@@ -36,3 +36,9 @@ export async function toggleTaskStatus(): Promise<void> {
   await kv.set(["reltubBot", "task"], updatedTask);
   console.log("Статус задачи успешно обновлен");
 }
+
+export async function getCastleTasks(): Promise<Task | null> {
+  const kv = await Deno.openKv();
+  const result = await kv.get<Task>(["reltubBot", "task"]);
+  return result.value || null;
+}

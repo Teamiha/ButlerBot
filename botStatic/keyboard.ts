@@ -17,7 +17,20 @@ export const adminKeyboard = new InlineKeyboard()
   .row()
   .text("Добавить пользователя", "addUser")
   .row()
-  .text("Удалить пользователя", "deleteUser");
+  .text("Удалить пользователя", "deleteUser")
+  .row()
+  .text("Управление задачами", "taskManager")
+  .row()
+  .text("Вернуться в меню", "start");
+
+export const taskManagerKeyboard = new InlineKeyboard()
+  .text("Добавить задачу", "addTask")
+  .row()
+  .text("Удалить задачу", "deleteTask")
+  .row()
+  .text("Сменить статус задачи", "changeTaskStatus")
+  .row()
+  .text("Вернуться в админку", "adminZone");
 
 export const calendarKeyboard = new InlineKeyboard()
   .text("События сегодня", "auth")
@@ -29,6 +42,13 @@ export const calendarKeyboard = new InlineKeyboard()
   .text("Добавить событие", "auth")
   .row()
   .text("Удалить событие", "auth");
+
+
+export const castleProcessKeyboard = new InlineKeyboard();
+
+const listOfCastleProcess = await getCastleProcess();
+
+
 
 export const listOfUsersKeyboard = new InlineKeyboard();
 

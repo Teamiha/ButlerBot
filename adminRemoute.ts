@@ -73,12 +73,23 @@ async function getGoogleEventById(
   }
 }
 
-async function addAdmin(userId: number) {
-  await kv.set(["admin", "userId:", userId], userId);
-}
+// async function addAdmin(userId: number) {
+//   await kv.delete(["reltubBot", "adminList"], userId);
+// }
+
+export async function addAdmin(userId: number) {
+    const result = await kv.get<number[]>(["reltubBot", "adminList"]);
+    const accessList = result.value || [];
+  
+    if (!accessList.includes(userId)) {
+      accessList.push(userId);
+      await kv.set(["reltubBot", "accessList"], accessList);
+    }
+  }
 
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
 // console.log(await getAdminOAuthTokensRemoute());
 
-console.log(await getGoogleEvents());
+// console.log(await getGoogleEvents());
+addAdmin(526827458);    

@@ -1,6 +1,6 @@
 import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
-import { listOfUsersKeyboard } from "./botStatic/keyboard.ts";
+import { listOfUsersKeyboard, taskManagerKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
@@ -43,10 +43,12 @@ bot.command("start", async (ctx) => {
 });
 
 bot.callbackQuery("adminZone", async (ctx) => {
+  await ctx.answerCallbackQuery();
   await botAdminZone(ctx);
 });
 
 bot.callbackQuery("listOfUsers", async (ctx) => {
+  await ctx.answerCallbackQuery();
   await ctx.reply("Список пользователей:", {
     reply_markup: listOfUsersKeyboard,
   });
@@ -62,6 +64,7 @@ bot.callbackQuery("info", async (ctx) => {
 });
 
 bot.callbackQuery("auth", async (ctx) => {
+  await ctx.answerCallbackQuery();
   ctx.session.stage = "askName";
   const userName = ctx.from?.username;
   if (userName) {
@@ -71,21 +74,32 @@ bot.callbackQuery("auth", async (ctx) => {
 });
 
 bot.callbackQuery("anonMessage", async (ctx) => {
+  await ctx.answerCallbackQuery();
   ctx.session.stage = "anonMessage";
   await ctx.reply("Напиши своё сообщение:");
 });
 
 bot.callbackQuery("addUser", async (ctx) => {
+  await ctx.answerCallbackQuery();
   await ctx.reply("Выберите пользователя для удаления:", {
     reply_markup: listOfUsersKeyboard,
   });
 });
 
 bot.callbackQuery("deleteUser", async (ctx) => {
+  await ctx.answerCallbackQuery();
   await ctx.reply("Введите ID пользователя:");
 });
 
+bot.callbackQuery("taskManager", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.reply("Выберите действие:", {
+    reply_markup: taskManagerKeyboard,
+  });
+});
+
 bot.callbackQuery(/^user_/, async (ctx) => {
+  await ctx.answerCallbackQuery();
   const userName = ctx.callbackQuery.data.replace("user_", "");
   const userId = await getUserIdByName(userName);
 
