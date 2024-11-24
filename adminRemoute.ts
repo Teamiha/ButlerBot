@@ -79,11 +79,11 @@ async function getGoogleEventById(
 
 export async function addAdmin(userId: number) {
     const result = await kv.get<number[]>(["reltubBot", "adminList"]);
-    const accessList = result.value || [];
+    const adminList = result.value || [];
   
-    if (!accessList.includes(userId)) {
-      accessList.push(userId);
-      await kv.set(["reltubBot", "accessList"], accessList);
+    if (!adminList.includes(userId)) {
+      adminList.push(userId);
+      await kv.set(["reltubBot", "adminList"], adminList);
     }
   }
 

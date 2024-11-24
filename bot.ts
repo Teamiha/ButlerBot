@@ -1,6 +1,6 @@
 import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
-import { listOfUsersKeyboard, taskManagerKeyboard } from "./botStatic/keyboard.ts";
+import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
@@ -45,6 +45,13 @@ bot.command("start", async (ctx) => {
 bot.callbackQuery("adminZone", async (ctx) => {
   await ctx.answerCallbackQuery();
   await botAdminZone(ctx);
+});
+
+bot.callbackQuery("start", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.reply("Главное меню", {
+    reply_markup: startKeyboard,
+  });
 });
 
 bot.callbackQuery("listOfUsers", async (ctx) => {
