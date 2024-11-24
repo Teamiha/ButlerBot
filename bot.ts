@@ -90,9 +90,7 @@ bot.on("message:text", async (ctx) => {
     await updateUser(ctx.from?.id, "birthday", messageText);
     ctx.session.stage = "null";
     await ctx.reply("Регистрация завершена! Спасибо!");
-  } else {
-    await ctx.reply("Введите команду /start для начала.");
-  }
+  } 
 });
 
 export { bot };
