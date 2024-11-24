@@ -30,11 +30,20 @@ export async function cleanupPastEvents() {
     const prefix = ["reltubBot", "Google_event"];
 
     const eventsIterator = kv.list<GoogleCalendarEvent>({ prefix });
-    const currentTime = new Date().toISOString();
+    const currentTime = new Date().getTime();
 
     for await (const entry of eventsIterator) {
       const event = entry.value;
-      if (event.end < currentTime) {
+      const eventEndTime = event.end.dateTime || event.end.date;
+      
+      if (!eventEndTime) {
+        console.log(`Событие ${event.id} не имеет времени окончания`);
+        continue;
+      }
+
+      const eventEndTimestamp = new Date(eventEndTime).getTime();
+
+      if (eventEndTimestamp < currentTime) {
         await kv.delete(["reltubBot", "Google_event", `event:${event.id}`]);
         console.log(
           `Удалено прошедшее событие: ${event.summary} (ID: ${event.id})`,
