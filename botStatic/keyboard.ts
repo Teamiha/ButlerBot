@@ -4,13 +4,11 @@ export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
 
 export const startKeyboard = new InlineKeyboard()
-  .text("Новости", "auth")
+  .text("Список пользователей", "listOfUsers")
   .row()
   .text("Информация", "info")
   .row()
   .text("Анонимное сообщение", "anonMessage")
-  .row()
-  .text("Тест крона", "testCron")
   .row()
   .text("Админский раздел", "adminZone");
 
