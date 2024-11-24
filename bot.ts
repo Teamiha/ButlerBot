@@ -47,7 +47,12 @@ bot.callbackQuery("listOfUsers", async (ctx) => {
 });
 
 bot.callbackQuery("info", async (ctx) => {
-  await ctx.reply(info);
+  try {
+    await ctx.answerCallbackQuery();
+    await ctx.reply(info);
+  } catch (error) {
+    console.error("Error handling info callback:", error);
+  }
 });
 
 bot.callbackQuery("auth", async (ctx) => {
