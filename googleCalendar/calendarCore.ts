@@ -1,6 +1,6 @@
 import { Bot } from "@grammyjs/bot";
 import { getCalendarEventsForNext24Hours } from "./calendarSevice.ts";
-import { CHAT_ID } from "../botStatic/constance.ts";
+import { IDESOS_GROUP_ID } from "../botStatic/constance.ts";
 import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
 import { getKv } from "../botStatic/kvClient.ts";
@@ -184,7 +184,7 @@ export async function initializeQueueListener(bot: Bot<MyContext>) {
           console.error("Получено сообщение без eventId");
           return;
         }
-        await sendCalendarEventToGroup(bot, CHAT_ID, message.eventId);
+        await sendCalendarEventToGroup(bot, IDESOS_GROUP_ID, message.eventId);
         await kv.delete(["reltubBot", "delayedEvent", message.eventId]);
         console.log(
           `Уведомление для события ${message.eventId} успешно отправлено`,

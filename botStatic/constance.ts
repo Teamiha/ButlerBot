@@ -1,1 +1,2 @@
-export const CHAT_ID = -1002335442882;
+export const IDESOS_GROUP_ID = -1002335442882;
+export const CASTLE_PUBLIC_GROUP_ID = 0;

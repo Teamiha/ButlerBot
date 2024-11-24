@@ -1,11 +1,11 @@
 import { Bot } from "@grammyjs/bot";
-import { CHAT_ID } from "../botStatic/constance.ts";
 import { MyContext } from "../bot.ts";
 
 export async function sendMessageToGroup(
   ctx: MyContext,
   groupId: string | number,
   message: string,
+  bot: Bot<MyContext>,
 ) {
   const messageToSend =
     `Анонимное сообщение от одного из участников: ${message}`;

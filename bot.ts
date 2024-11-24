@@ -2,7 +2,7 @@ import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
 import { listOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
-import { CHAT_ID } from "./botStatic/constance.ts";
+import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
 import { grantAccess, revokeAccess, updateUser, getUserIdByName } from "./db.ts";
 import { info } from "./botStatic/info.ts";
@@ -104,7 +104,7 @@ bot.on("message:text", async (ctx) => {
   if (ctx.session.stage === "anonMessage") {
     const messageText = ctx.message.text;
     ctx.session.stage = "null";
-    await sendMessageToGroup(ctx, CHAT_ID, messageText);
+    await sendMessageToGroup(ctx, IDESOS_GROUP_ID, messageText, bot);
   } else if (ctx.session.stage === "askName") {
     const messageText = ctx.message.text;
     await updateUser(ctx.from?.id, "name", messageText);
