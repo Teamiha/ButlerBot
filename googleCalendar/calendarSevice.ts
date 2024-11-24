@@ -69,7 +69,6 @@ export async function getCalendarEventsForNext24Hours(): Promise<
 
   let accessToken = tokens.access_token;
 
-  // Если expiry_date отсутствует или токен истек, обновляем его
   if (!tokens.expiry_date || Date.now() >= tokens.expiry_date) {
     console.log("Токен истек или отсутствует expiry_date, пытаемся обновить");
     if (tokens.refresh_token) {
@@ -88,14 +87,13 @@ export async function getCalendarEventsForNext24Hours(): Promise<
     }
   }
 
-  // Определяем временной интервал в 24 часа от текущего момента
   const timeMin = new Date();
   const timeMax = new Date(timeMin.getTime() + 24 * 60 * 60 * 1000);
 
   const timeMinISOString = timeMin.toISOString();
   const timeMaxISOString = timeMax.toISOString();
 
-  // Формируем URL запроса к Google Calendar API
+
   const calendarId =
     "e2f38828f81c8d165481a7cdcc1ee711184fa8ada13fd8bc246f85ed715ae8a9@group.calendar.google.com";
   const url = `https://www.googleapis.com/calendar/v3/calendars/${
@@ -119,7 +117,6 @@ export async function getCalendarEventsForNext24Hours(): Promise<
         statusText: response.statusText,
         errorText,
         requestUrl: url,
-        // Добавим отладочную информацию о токене (только первые несколько символов)
         tokenPreview: accessToken.substring(0, 10) + "...",
       });
       throw new Error(`Google Calendar API error: ${response.statusText}`);
