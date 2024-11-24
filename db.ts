@@ -1,3 +1,5 @@
+import { getKv } from "./kvClient.ts";
+
 export interface UserData {
   nickName: string;
   name: string;
@@ -33,12 +35,11 @@ export async function createNewUser(userId: number) {
 }
 
 export async function getUserIdByName(userName: string): Promise<number | null> {
-    const kv = await Deno.openKv();
+    const kv = await getKv();
     const users = kv.list<UserData>({ prefix: ["reltubBot", "userId:"] });
     
     for await (const entry of users) {
       if (entry.value && entry.value.name === userName) {
-        // Extract userId from the key
         const key = entry.key[2] as string;
         const userId = Number(key.replace('userId:', ''));
         return userId;
@@ -53,7 +54,7 @@ export async function updateUser<Key extends keyof UserData>(
   dataUpdate: Key,
   valueUpdate: UserData[Key],
 ) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   const currentData = await kv.get<UserData>(["reltubBot", "userId:", userId]);
   if (
     currentData && currentData.value && `${dataUpdate}` in currentData.value
@@ -66,7 +67,7 @@ export async function updateUser<Key extends keyof UserData>(
 }
 
 export async function grantAccess(userId: number) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
   const result = await kv.get<number[]>(["reltubBot", "accessList"]);
   const accessList = result.value || [];
@@ -78,7 +79,7 @@ export async function grantAccess(userId: number) {
 }
 
 export async function revokeAccess(userId: number) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
   const result = await kv.get<number[]>(["reltubBot", "accessList"]);
   const accessList = result.value || [];
@@ -86,10 +87,11 @@ export async function revokeAccess(userId: number) {
   const updatedList = accessList.filter((id) => id !== userId);
 
   await kv.set(["reltubBot", "accessList"], updatedList);
+  await kv.delete(["reltubBot", "userId:", userId]);
 }
 
 export async function hasAccess(userId: number): Promise<boolean> {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
 
   const result = await kv.get<number[]>(["reltubBot", "accessList"]);
   const accessList = result.value || [];
@@ -98,7 +100,7 @@ export async function hasAccess(userId: number): Promise<boolean> {
 }
 
 export async function getUser(userId: number) {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   const user = await kv.get<UserData>(["reltubBot", "userId:", userId]);
   if (!user.value) {
     await createNewUser(userId);
@@ -110,7 +112,7 @@ export async function getUser(userId: number) {
 }
 
 export async function getAllUserNames(): Promise<string[]> {
-  const kv = await Deno.openKv();
+  const kv = await getKv();
   const users = kv.list<UserData>({ prefix: ["reltubBot", "userId:"] });
   const names: string[] = [];
 

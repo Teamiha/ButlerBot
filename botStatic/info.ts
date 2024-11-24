@@ -5,14 +5,14 @@ export const info = `Полезная информация.
 
 Точки доступа wifi и пароли от них:
 Главная точка, на первом этаже:
-- name: CASTLE-WIFI
-- password: CASTLE-WIFI
+- name: Fnet-953_5G
+- password: fortress
 
 Точка на втором этаже:
 - name: CASTLE-WIFI
 - password: CASTLE-WIFI
 
 Точка в большом зале:
-- name: CASTLE-WIFI
-- password: CASTLE-WIFI
+- name: castle1
+- password: 12345679
 `;
