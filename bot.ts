@@ -4,7 +4,7 @@ import { listOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { CHAT_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
-import { updateUser } from "./db.ts";
+import { grantAccess, updateUser } from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
 
@@ -13,7 +13,8 @@ export interface SessionData {
     | "anonMessage"
     | "askName"
     | "askBirthDate"
-    | "null";
+    | "null"
+    | "addUser";
 }
 
 export type MyContext = Context & SessionFlavor<SessionData>;
@@ -75,6 +76,11 @@ bot.callbackQuery(/^user_/, async (ctx) => {
   await ctx.reply(`Вы выбрали пользователя: ${userName}`);
 });
 
+bot.callbackQuery("addUser", async (ctx) => {
+    await ctx.reply("Введите ID пользователя:");
+    ctx.session.stage = "addUser";
+});
+
 
 bot.on("message:text", async (ctx) => {
   if (ctx.session.stage === "anonMessage") {
@@ -94,7 +100,12 @@ bot.on("message:text", async (ctx) => {
     await updateUser(ctx.from?.id, "birthday", messageText);
     ctx.session.stage = "null";
     await ctx.reply("Регистрация завершена! Спасибо!");
-  } 
+  } else if (ctx.session.stage === "addUser") {
+    const messageText = ctx.message.text;
+    await grantAccess(Number(messageText));
+    ctx.session.stage = "null";
+    await ctx.reply("Доступ предоставлен!");
+  }
 });
 
 export { bot };

@@ -4,7 +4,7 @@ export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
 
 export const startKeyboard = new InlineKeyboard()
-  .text("Список пользователей", "listOfUsers")
+  .text("Процесс обустройки замка", "castleProcess")
   .row()
   .text("Информация", "info")
   .row()
@@ -13,15 +13,11 @@ export const startKeyboard = new InlineKeyboard()
   .text("Админский раздел", "adminZone");
 
 export const adminKeyboard = new InlineKeyboard()
-  .text("Написать новость", "auth")
+  .text("Написать новость", "makeNews")
   .row()
-  .text("Назначить дежурство", "auth")
+  .text("Добавить пользователя", "addUser")
   .row()
-  .text("Создать напоминание", "auth")
-  .row()
-  .text("Добавить пользователя", "auth")
-  .row()
-  .text("Авторизация", "auth");
+  .text("Удалить пользователя", "deleteUser");
 
 export const calendarKeyboard = new InlineKeyboard()
   .text("События сегодня", "auth")

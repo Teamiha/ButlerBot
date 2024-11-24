@@ -32,6 +32,22 @@ export async function createNewUser(userId: number) {
   await kv.set(["reltubBot", "userId:", userId], newUserData);
 }
 
+export async function getUserIdByName(userName: string): Promise<number | null> {
+    const kv = await Deno.openKv();
+    const users = kv.list<UserData>({ prefix: ["reltubBot", "userId:"] });
+    
+    for await (const entry of users) {
+      if (entry.value && entry.value.name === userName) {
+        // Extract userId from the key
+        const key = entry.key[2] as string;
+        const userId = Number(key.replace('userId:', ''));
+        return userId;
+      }
+    }
+    
+  return null;
+}
+
 export async function updateUser<Key extends keyof UserData>(
   userId: number,
   dataUpdate: Key,
