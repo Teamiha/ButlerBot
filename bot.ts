@@ -1,6 +1,6 @@
 import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
-import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard, castleProcessKeyboard, generateCastleProcessKeyboard } from "./botStatic/keyboard.ts";
+import { taskManagerKeyboard, startKeyboard, generateCastleProcessKeyboard, generateListOfUsersKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
@@ -58,8 +58,9 @@ bot.callbackQuery("start", async (ctx) => {
 
 bot.callbackQuery("listOfUsers", async (ctx) => {
   await ctx.answerCallbackQuery();
+  const keyboard = await generateListOfUsersKeyboard();
   await ctx.reply("Список пользователей:", {
-    reply_markup: listOfUsersKeyboard,
+    reply_markup: keyboard,
   });
 });
 
@@ -90,14 +91,16 @@ bot.callbackQuery("anonMessage", async (ctx) => {
 
 bot.callbackQuery("addUser", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Выберите пользователя для удаления:", {
-    reply_markup: listOfUsersKeyboard,
-  });
+  ctx.session.stage = "addUser";
+  await ctx.reply("Введите ID пользователя:");
 });
 
 bot.callbackQuery("deleteUser", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Введите ID пользователя:");
+  const keyboard = await generateListOfUsersKeyboard();
+  await ctx.reply("Выберите пользователя для удаления:", {
+    reply_markup: keyboard,
+  });
 });
 
 bot.callbackQuery("taskManager", async (ctx) => {

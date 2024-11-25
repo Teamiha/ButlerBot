@@ -49,24 +49,19 @@ export const calendarKeyboard = new InlineKeyboard()
   .text("Удалить событие", "auth");
 
 
-export const castleProcessKeyboard = new InlineKeyboard();
 
-const tasks = await transferTaskStatus();
 
-tasks.forEach((task: Task) => {
-  const displayText = `${task.taskText}`;
-  castleProcessKeyboard.text(displayText, `task_${task.id}`);
-  castleProcessKeyboard.row();
-});
+export async function generateListOfUsersKeyboard(): Promise<InlineKeyboard> {
+  const keyboard = new InlineKeyboard();
+  const listOfUsers = await getAllUserNames();
 
-export const listOfUsersKeyboard = new InlineKeyboard();
+  listOfUsers.forEach((user) => {
+    keyboard.text(user, `user_${user}`);
+    keyboard.row();
+  });
 
-const listOfUsers = await getAllUserNames();
-
-listOfUsers.forEach((user) => {
-  listOfUsersKeyboard.text(user, `user_${user}`);
-  listOfUsersKeyboard.row();
-});
+  return keyboard;
+}
 
 export async function generateCastleProcessKeyboard(): Promise<InlineKeyboard> {
   const keyboard = new InlineKeyboard();
