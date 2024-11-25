@@ -115,9 +115,8 @@ bot.callbackQuery("addTask", async (ctx) => {
 
 bot.callbackQuery("castleProcess", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Список текущих задач Замка:", {
-    reply_markup: castleProcessKeyboard,
-  });
+  const tasksList = await transferTaskStatus();
+  await ctx.reply("Список текущих задач Замка:\n\n" + tasksList);
 });
 
 bot.callbackQuery(/^task_/, async (ctx) => {

@@ -46,7 +46,7 @@ async function getCastleTasks(): Promise<Task | null> {
   return result.value || null;
 }
 
-export async function transferTaskStatus(): Promise<string[]> {
+export async function transferTaskToKeyboard(): Promise<string[]> {
   const task = await getCastleTasks();
   if (!task) {
     return [];
@@ -56,4 +56,16 @@ export async function transferTaskStatus(): Promise<string[]> {
   const crossMark = "❌";
   
   return [`${task.taskText} ${task.taskStatus ? checkMark : crossMark}`];
+}
+
+export async function transferTaskStatus(): Promise<string> {
+  const task = await getCastleTasks();
+  if (!task) {
+    return "Нет активных задач";
+  }
+
+  const checkMark = "✅";
+  const crossMark = "❌";
+  
+  return `${task.taskText} ${task.taskStatus ? checkMark : crossMark}`;
 }
