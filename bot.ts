@@ -35,10 +35,6 @@ bot.use(session({
 }));
 
 bot.command("start", async (ctx) => {
-  if (ctx.chat.type !== "private") {
-    await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
-    return;
-  }
 
   const chatId = ctx.chat.id;
   const threadId = ctx.message?.message_thread_id; 
@@ -50,6 +46,12 @@ bot.command("start", async (ctx) => {
     console.log("This message is not from a thread.");
   }
 
+
+  if (ctx.chat.type !== "private") {
+    await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
+    return;
+  }
+  
   ctx.session.stage = "null";
   await botStart(ctx);
 });
