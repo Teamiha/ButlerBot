@@ -3,16 +3,18 @@ import { IDESOS_GROUP_ID } from "../botStatic/constance.ts";
 import { MyContext } from "../bot.ts";
 import { formatWeatherMessage, getTodayWeather } from "../weatherService.ts";
 import { yerevanToUTC } from "../helpers.ts";
+
+
 const weatherMessage = formatWeatherMessage(await getTodayWeather());
 
 const dailyMessage =
-  `Сейчас 12 часов утра, тест новой передачи целевого значения времени.
+  `С добрым утром дорогой замок!
 
 ${weatherMessage}`;
 
-const targetHour = await yerevanToUTC(12);
+const targetHour = await yerevanToUTC(9);
 
-export async function testDenoDailyMessage(bot: Bot<MyContext>) {
+export async function botDailyMessage(bot: Bot<MyContext>) {
   Deno.cron("testMessage", `0 ${targetHour} * * *`, async () => {
     try {
       console.log("Бот проснулся.");

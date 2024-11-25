@@ -15,6 +15,7 @@ import {
   setupDelayedEvent,
   updateCalendarReminders,
 } from "./googleCalendar/calendarCore.ts";
+import { botDailyMessage } from "./botModules/BotDailyMessage.ts";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN");
 if (!BOT_TOKEN) {
@@ -92,12 +93,14 @@ Deno.serve(async (req) => {
   }
 });
 
+await botDailyMessage(bot).catch(console.error);
+
 await cleanupPastEvents().catch(console.error);
 
 await saveGoogleEvent().catch(console.error);
 
 await setupDelayedEvent(await getAllEvents()).catch(console.error);
 
-await updateCalendarReminders(bot).catch(console.error);
+await updateCalendarReminders().catch(console.error);
 
 await initializeQueueListener(bot).catch(console.error);
