@@ -1,6 +1,5 @@
 import { getKv } from "../botStatic/kvClient.ts";
 
-
 export interface Task {
   taskText: string;
   taskStatus: boolean;
@@ -28,7 +27,7 @@ export async function deleteTaskById(taskId: string): Promise<void> {
 export async function toggleTaskStatusById(taskId: string): Promise<void> {
   const kv = await getKv();
   const task = await kv.get<Task>(["reltubBot", "tasks", taskId]);
-  
+
   if (task.value) {
     const updatedTask: Task = {
       ...task.value,
@@ -45,11 +44,11 @@ async function getCastleTasks(): Promise<Task[]> {
   const kv = await getKv();
   const tasks: Task[] = [];
   const iterator = kv.list<Task>({ prefix: ["reltubBot", "tasks"] });
-  
+
   for await (const entry of iterator) {
     tasks.push(entry.value);
   }
-  
+
   return tasks;
 }
 
@@ -65,8 +64,10 @@ export async function transferTaskStatusForView(): Promise<string> {
 
   const checkMark = "✅";
   const crossMark = "❌";
-  
+
   return tasks
-    .map(task => `${task.taskText} ${task.taskStatus ? checkMark : crossMark}`)
-    .join('\n');
+    .map((task) =>
+      `${task.taskText} ${task.taskStatus ? checkMark : crossMark}`
+    )
+    .join("\n");
 }

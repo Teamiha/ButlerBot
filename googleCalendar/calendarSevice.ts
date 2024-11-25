@@ -1,11 +1,5 @@
-import {
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-} from "../config.ts";
-import {
-  getAdminOAuthTokens,
-  saveAdminOAuthTokens,
-} from "./calendarDB.ts";
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../config.ts";
+import { getAdminOAuthTokens, saveAdminOAuthTokens } from "./calendarDB.ts";
 
 export interface GoogleCalendarEvent {
   id: string;
@@ -140,5 +134,3 @@ export async function getCalendarEventsForNext24Hours(ID: string): Promise<
     throw error;
   }
 }
-
-

@@ -1,12 +1,17 @@
 import { Bot } from "@grammyjs/bot";
 import { getCalendarEventsForNext24Hours } from "./calendarSevice.ts";
-import { IDESOS_GROUP_ID, CASTLE_PUBLIC_GROUP_ID } from "../botStatic/constance.ts";
+import {
+  CASTLE_PUBLIC_GROUP_ID,
+  IDESOS_GROUP_ID,
+} from "../botStatic/constance.ts";
 import { MyContext } from "../bot.ts";
 import { getKv } from "../botStatic/kvClient.ts";
 import { GoogleCalendarEvent } from "./calendarSevice.ts";
 import { sendCalendarEventToGroup } from "../botModules/botSendCalendarIvent.ts";
-import { IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID } from "../botStatic/constance.ts";
-
+import {
+  CASTLE_CALENDAR_ID,
+  IDESOS_CALENDAR_ID,
+} from "../botStatic/constance.ts";
 
 export async function updateCalendarReminders() {
   Deno.cron("updateCalendarReminders", `0 3 * * *`, async () => {

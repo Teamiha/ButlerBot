@@ -186,10 +186,8 @@ import { getKv } from "./botStatic/kvClient.ts";
 //   }
 // }
 
-
-
 // const chatId = ctx.chat.id;
-// const threadId = ctx.message?.message_thread_id; 
+// const threadId = ctx.message?.message_thread_id;
 
 // console.log(`Chat ID: ${chatId}`);
 // if (threadId) {
@@ -197,4 +195,3 @@ import { getKv } from "./botStatic/kvClient.ts";
 // } else {
 //   console.log("This message is not from a thread.");
 // }
-

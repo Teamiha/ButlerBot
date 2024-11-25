@@ -21,4 +21,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "mikhail-butlerbot-63"
-          entrypoint: "main.ts" 
+          entrypoint: "main.ts"

@@ -1,7 +1,6 @@
 import { InlineKeyboard } from "@grammyjs/bot";
 import { getAllUserNames } from "../db.ts";
-import { transferTaskStatus, Task } from "../tasksSystem/taskDb.ts";
-
+import { Task, transferTaskStatus } from "../tasksSystem/taskDb.ts";
 
 export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
@@ -47,9 +46,6 @@ export const calendarKeyboard = new InlineKeyboard()
   .text("Добавить событие", "auth")
   .row()
   .text("Удалить событие", "auth");
-
-
-
 
 export async function generateListOfUsersKeyboard(): Promise<InlineKeyboard> {
   const keyboard = new InlineKeyboard();
