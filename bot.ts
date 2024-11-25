@@ -12,7 +12,7 @@ import {
 } from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
-import { transferTaskStatus, addTask } from "./tasksSystem/taskDb.ts";
+import { transferTaskStatus, addTask, deleteTask, toggleTaskStatus } from "./tasksSystem/taskDb.ts";
 
 export interface SessionData {
   stage:
@@ -122,7 +122,9 @@ bot.callbackQuery("deleteTask", async (ctx) => {
 
 bot.callbackQuery("changeTaskStatus", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Введите ID задачи:");
+  await ctx.reply("Выберите задачу для изменения статуса:", {
+    reply_markup: castleProcessKeyboard,
+  });
 });
 
 bot.callbackQuery("castleProcess", async (ctx) => {
@@ -134,7 +136,15 @@ bot.callbackQuery("castleProcess", async (ctx) => {
 bot.callbackQuery(/^task_/, async (ctx) => {
   await ctx.answerCallbackQuery();
   const taskText = ctx.callbackQuery.data.replace("task_", "");
-  console.log(`Была выбрана задача: ${taskText}`);
+  const previousMessage = ctx.callbackQuery.message?.text;
+
+  if (previousMessage?.includes("для удаления")) {
+    await deleteTask(taskText);
+    await ctx.reply(`Задача "${taskText}" успешно удалена.`);
+  } else if (previousMessage?.includes("для изменения статуса")) {
+    await toggleTaskStatus(taskText);
+    await ctx.reply(`Статус задачи "${taskText}" успешно изменен.`);
+  }
 });
 
 bot.callbackQuery(/^user_/, async (ctx) => {

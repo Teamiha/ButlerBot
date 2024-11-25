@@ -17,28 +17,36 @@ export async function addTask(taskText: string): Promise<void> {
   console.log("Задача успешно добавлена");
 }
 
-export async function deleteTask(): Promise<void> {
+export async function deleteTask(taskText: string): Promise<void> {
   const kv = await getKv();
-  await kv.delete(["reltubBot", "task"]);
-  console.log("Задача успешно удалена");
+  const iterator = kv.list<Task>({ prefix: ["reltubBot", "tasks"] });
+  
+  for await (const entry of iterator) {
+    if (entry.value.taskText === taskText) {
+      await kv.delete(entry.key);
+      console.log("Задача успешно удалена");
+      return;
+    }
+  }
+  console.log("Задача не найдена");
 }
 
-export async function toggleTaskStatus(): Promise<void> {
-  const kv = await Deno.openKv();
-  const result = await kv.get<Task>(["reltubBot", "task"]);
-
-  if (!result.value) {
-    console.log("Задача не найдена");
-    return;
+export async function toggleTaskStatus(taskText: string): Promise<void> {
+  const kv = await getKv();
+  const iterator = kv.list<Task>({ prefix: ["reltubBot", "tasks"] });
+  
+  for await (const entry of iterator) {
+    if (entry.value.taskText === taskText) {
+      const updatedTask: Task = {
+        ...entry.value,
+        taskStatus: !entry.value.taskStatus,
+      };
+      await kv.set(entry.key, updatedTask);
+      console.log("Статус задачи успешно обновлен");
+      return;
+    }
   }
-
-  const updatedTask: Task = {
-    ...result.value,
-    taskStatus: !result.value.taskStatus,
-  };
-
-  await kv.set(["reltubBot", "task"], updatedTask);
-  console.log("Статус задачи успешно обновлен");
+  console.log("Задача не найдена");
 }
 
 async function getCastleTasks(): Promise<Task[]> {

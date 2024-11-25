@@ -51,17 +51,13 @@ export const calendarKeyboard = new InlineKeyboard()
 
 export const castleProcessKeyboard = new InlineKeyboard();
 
-const listOfCastleProcess = await transferTaskStatus();
+const listOfCastleProcess: string = await transferTaskStatus();
+const tasks = listOfCastleProcess.split('\n');
 
-if (typeof listOfCastleProcess === 'string') {
-  castleProcessKeyboard.text(listOfCastleProcess, `task_${listOfCastleProcess}`);
+tasks.forEach((task: string) => {
+  castleProcessKeyboard.text(task, `task_${task}`);
   castleProcessKeyboard.row();
-} else {
-  (listOfCastleProcess as string[]).forEach((task) => {
-    castleProcessKeyboard.text(task, `task_${task}`);
-    castleProcessKeyboard.row();
-  });
-}
+});
 
 
 export const listOfUsersKeyboard = new InlineKeyboard();
