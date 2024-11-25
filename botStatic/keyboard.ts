@@ -1,6 +1,6 @@
 import { InlineKeyboard } from "@grammyjs/bot";
 import { getAllUserNames } from "../db.ts";
-import { transferTaskStatus  } from "../tasksSystem/taskDb.ts";
+import { transferTaskStatus, Task } from "../tasksSystem/taskDb.ts";
 
 
 export const registrationKeyboard = new InlineKeyboard()

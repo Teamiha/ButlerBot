@@ -53,19 +53,20 @@ async function getCastleTasks(): Promise<Task[]> {
   return tasks;
 }
 
-
-// export async function transferTaskToKeyboard(): Promise<string[]> {
-//   const task = await getCastleTasks();
-//   if (!task) {
-//     return [];
-//   }
-
-//   const checkMark = "✅";
-//   const crossMark = "❌";
-  
-//   return [`${task.taskText} ${task.taskStatus ? checkMark : crossMark}`];
-// }
-
 export async function transferTaskStatus(): Promise<Task[]> {
   return await getCastleTasks();
+}
+
+export async function transferTaskStatusForView(): Promise<string> {
+  const tasks = await getCastleTasks();
+  if (tasks.length === 0) {
+    return "Нет активных задач";
+  }
+
+  const checkMark = "✅";
+  const crossMark = "❌";
+  
+  return tasks
+    .map(task => `${task.taskText} ${task.taskStatus ? checkMark : crossMark}`)
+    .join('\n');
 }

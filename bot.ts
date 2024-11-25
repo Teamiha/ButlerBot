@@ -12,7 +12,7 @@ import {
 } from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
-import { transferTaskStatus, addTask,  deleteTaskById, toggleTaskStatusById } from "./tasksSystem/taskDb.ts";
+import { transferTaskStatusForView, addTask,  deleteTaskById, toggleTaskStatusById } from "./tasksSystem/taskDb.ts";
 
 export interface SessionData {
   stage:
@@ -129,7 +129,7 @@ bot.callbackQuery("changeTaskStatus", async (ctx) => {
 
 bot.callbackQuery("castleProcess", async (ctx) => {
   await ctx.answerCallbackQuery();
-  const tasksList = await transferTaskStatus();
+  const tasksList = await transferTaskStatusForView();
   await ctx.reply("Список текущих задач Замка:\n\n" + tasksList);
 });
 
