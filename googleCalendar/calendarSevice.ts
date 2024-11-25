@@ -1,14 +1,11 @@
 import {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  REDIRECT_URI,
 } from "../config.ts";
 import {
   getAdminOAuthTokens,
-  OAuthTokens,
   saveAdminOAuthTokens,
 } from "./calendarDB.ts";
-import { IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID } from "../botStatic/constance.ts";
 
 export interface GoogleCalendarEvent {
   id: string;

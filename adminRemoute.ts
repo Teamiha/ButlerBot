@@ -88,7 +88,20 @@ export async function addAdmin(userId: number) {
   }
 
 async function cleaner() {
-  await kv.delete(["Google_event"]);
+  try {
+    // Получаем все записи с префиксом "tasks"
+    const tasksIterator = kv.list({
+      prefix: ["reltubBot", "tasks"],
+    });
+
+    // Удаляем каждую запись
+    for await (const entry of tasksIterator) {
+      await kv.delete(entry.key);
+    }
+    console.log("Все задачи успешно удалены");
+  } catch (error) {
+    console.error("Ошибка при удалении задач:", error);
+  }
 }
 
 // grantAccess(526827458)

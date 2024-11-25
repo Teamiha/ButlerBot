@@ -13,13 +13,13 @@ export const startKeyboard = new InlineKeyboard()
   .row()
   .text("Анонимное сообщение", "anonMessage")
   .row()
-  .text("Добавить вещь в глобальный виш-лист", "addWish")
-  .row()
+  // .text("Добавить вещь в глобальный виш-лист", "addWish")
+  // .row()
   .text("Админский раздел", "adminZone");
 
 export const adminKeyboard = new InlineKeyboard()
-  .text("Написать новость", "makeNews")
-  .row()
+  // .text("Написать новость", "makeNews")
+  // .row()
   .text("Добавить пользователя", "addUser")
   .row()
   .text("Удалить пользователя", "deleteUser")
@@ -40,7 +40,7 @@ export const taskManagerKeyboard = new InlineKeyboard()
 export const calendarKeyboard = new InlineKeyboard()
   .text("События сегодня", "auth")
   .row()
-  .text("обытия завтра", "auth")
+  .text("События завтра", "auth")
   .row()
   .text("Раписание на эту неделю", "auth")
   .row()
@@ -54,12 +54,10 @@ export const castleProcessKeyboard = new InlineKeyboard();
 const tasks = await transferTaskStatus();
 
 tasks.forEach((task: Task) => {
-  const checkMark = task.taskStatus ? "✅" : "❌";
-  const displayText = `${task.taskText} ${checkMark}`;
+  const displayText = `${task.taskText}`;
   castleProcessKeyboard.text(displayText, `task_${task.id}`);
   castleProcessKeyboard.row();
 });
-
 
 export const listOfUsersKeyboard = new InlineKeyboard();
 

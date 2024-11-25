@@ -1,6 +1,7 @@
 import { MyContext } from "../bot.ts";
 import { getUserParametr, hasAccess } from "../db.ts";
 import { registrationKeyboard, startKeyboard } from "../botStatic/keyboard.ts";
+import { SUPERUSER } from "../config.ts";
 
 export async function botStart(ctx: MyContext) {
   const userId = ctx.from?.id;
@@ -24,7 +25,7 @@ export async function botStart(ctx: MyContext) {
       return;
     }
 
-    if (userHasAccess === true) {
+    if (userHasAccess === true || userId === Number(SUPERUSER)) {
       await ctx.reply("Добро пожаловать! Выберите действие:", {
         reply_markup: startKeyboard,
       });

@@ -1,7 +1,6 @@
 import { Bot } from "@grammyjs/bot";
 import { getCalendarEventsForNext24Hours } from "./calendarSevice.ts";
 import { IDESOS_GROUP_ID, CASTLE_PUBLIC_GROUP_ID } from "../botStatic/constance.ts";
-import { yerevanToUTC } from "../helpers.ts";
 import { MyContext } from "../bot.ts";
 import { getKv } from "../botStatic/kvClient.ts";
 import { GoogleCalendarEvent } from "./calendarSevice.ts";
@@ -9,7 +8,7 @@ import { sendCalendarEventToGroup } from "../botModules/botSendCalendarIvent.ts"
 import { IDESOS_CALENDAR_ID, CASTLE_CALENDAR_ID } from "../botStatic/constance.ts";
 
 
-export async function updateCalendarReminders(bot: Bot<MyContext>) {
+export async function updateCalendarReminders() {
   Deno.cron("updateCalendarReminders", `0 3 * * *`, async () => {
     try {
       console.log("Бот проснулся.");

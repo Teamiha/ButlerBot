@@ -31,7 +31,7 @@ import { getKv } from "./botStatic/kvClient.ts";
 //     await ctx.reply(`Перейдите по этой ссылке для авторизации админа: ${authUrl.toString()}`);
 //   });
 
-const tony = { Id: 703883881 };
+// const tony = { Id: 703883881 };
 
 // import { enqueueNotification } from "./notificationQueue.ts";
 // import { Bot } from "@grammyjs/bot";
@@ -131,9 +131,9 @@ const tony = { Id: 703883881 };
 // }
 
 // Функция которую хотим выполнить
-export async function testFunc() {
-  console.log("TestFunc выполнена спустя 10 минут!");
-}
+// export async function testFunc() {
+//   console.log("TestFunc выполнена спустя 10 минут!");
+// }
 
 // export async function testDelay(){
 //     console.log("Начало выполнения функции с задержкой");
