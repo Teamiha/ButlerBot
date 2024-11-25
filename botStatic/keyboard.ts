@@ -67,3 +67,16 @@ listOfUsers.forEach((user) => {
   listOfUsersKeyboard.text(user, `user_${user}`);
   listOfUsersKeyboard.row();
 });
+
+export async function generateCastleProcessKeyboard(): Promise<InlineKeyboard> {
+  const keyboard = new InlineKeyboard();
+  const tasks = await transferTaskStatus();
+
+  tasks.forEach((task: Task) => {
+    const displayText = `${task.taskText} ${task.taskStatus ? "✅" : "❌"}`;
+    keyboard.text(displayText, `task_${task.id}`);
+    keyboard.row();
+  });
+
+  return keyboard;
+}

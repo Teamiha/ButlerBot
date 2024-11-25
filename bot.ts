@@ -1,6 +1,6 @@
 import { Bot, Context, session, SessionFlavor } from "@grammyjs/bot";
 import { BOT_TOKEN } from "./config.ts";
-import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard, castleProcessKeyboard } from "./botStatic/keyboard.ts";
+import { listOfUsersKeyboard, taskManagerKeyboard, startKeyboard, castleProcessKeyboard, generateCastleProcessKeyboard } from "./botStatic/keyboard.ts";
 import { botStart } from "./botModules/botStart.ts";
 import { IDESOS_GROUP_ID } from "./botStatic/constance.ts";
 import { sendMessageToGroup } from "./botModules/botSendMessageToGroup.ts";
@@ -115,15 +115,17 @@ bot.callbackQuery("addTask", async (ctx) => {
 
 bot.callbackQuery("deleteTask", async (ctx) => {
   await ctx.answerCallbackQuery();
+  const keyboard = await generateCastleProcessKeyboard();
   await ctx.reply("Выберите задачу для удаления:", {
-    reply_markup: castleProcessKeyboard,
+    reply_markup: keyboard,
   });
 });
 
 bot.callbackQuery("changeTaskStatus", async (ctx) => {
   await ctx.answerCallbackQuery();
+  const keyboard = await generateCastleProcessKeyboard();
   await ctx.reply("Выберите задачу для изменения статуса:", {
-    reply_markup: castleProcessKeyboard,
+    reply_markup: keyboard,
   });
 });
 
