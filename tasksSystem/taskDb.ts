@@ -4,49 +4,41 @@ import { getKv } from "../botStatic/kvClient.ts";
 export interface Task {
   taskText: string;
   taskStatus: boolean;
+  id: string;
 }
 
 export async function addTask(taskText: string): Promise<void> {
   const kv = await getKv();
+  const taskId = `task_${Date.now()}`;
   const task: Task = {
     taskText,
     taskStatus: false,
+    id: taskId,
   };
-  const taskKey = `task_${Date.now()}`;
-  await kv.set(["reltubBot", "tasks", taskKey], task);
+  await kv.set(["reltubBot", "tasks", taskId], task);
   console.log("Задача успешно добавлена");
 }
 
-export async function deleteTask(taskText: string): Promise<void> {
+export async function deleteTaskById(taskId: string): Promise<void> {
   const kv = await getKv();
-  const iterator = kv.list<Task>({ prefix: ["reltubBot", "tasks"] });
-  
-  for await (const entry of iterator) {
-    if (entry.value.taskText === taskText) {
-      await kv.delete(entry.key);
-      console.log("Задача успешно удалена");
-      return;
-    }
-  }
-  console.log("Задача не найдена");
+  await kv.delete(["reltubBot", "tasks", taskId]);
+  console.log("Задача успешно удалена");
 }
 
-export async function toggleTaskStatus(taskText: string): Promise<void> {
+export async function toggleTaskStatusById(taskId: string): Promise<void> {
   const kv = await getKv();
-  const iterator = kv.list<Task>({ prefix: ["reltubBot", "tasks"] });
+  const task = await kv.get<Task>(["reltubBot", "tasks", taskId]);
   
-  for await (const entry of iterator) {
-    if (entry.value.taskText === taskText) {
-      const updatedTask: Task = {
-        ...entry.value,
-        taskStatus: !entry.value.taskStatus,
-      };
-      await kv.set(entry.key, updatedTask);
-      console.log("Статус задачи успешно обновлен");
-      return;
-    }
+  if (task.value) {
+    const updatedTask: Task = {
+      ...task.value,
+      taskStatus: !task.value.taskStatus,
+    };
+    await kv.set(["reltubBot", "tasks", taskId], updatedTask);
+    console.log("Статус задачи успешно обновлен");
+  } else {
+    console.log("Задача не найдена");
   }
-  console.log("Задача не найдена");
 }
 
 async function getCastleTasks(): Promise<Task[]> {
@@ -74,16 +66,6 @@ async function getCastleTasks(): Promise<Task[]> {
 //   return [`${task.taskText} ${task.taskStatus ? checkMark : crossMark}`];
 // }
 
-export async function transferTaskStatus(): Promise<string> {
-  const tasks = await getCastleTasks();
-  if (tasks.length === 0) {
-    return "Нет активных задач";
-  }
-
-  const checkMark = "✅";
-  const crossMark = "❌";
-  
-  return tasks
-    .map(task => `${task.taskText} ${task.taskStatus ? checkMark : crossMark}`)
-    .join('\n');
+export async function transferTaskStatus(): Promise<Task[]> {
+  return await getCastleTasks();
 }

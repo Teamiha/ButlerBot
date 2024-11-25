@@ -12,7 +12,7 @@ import {
 } from "./db.ts";
 import { info } from "./botStatic/info.ts";
 import { botAdminZone } from "./botModules/botAdminZone.ts";
-import { transferTaskStatus, addTask, deleteTask, toggleTaskStatus } from "./tasksSystem/taskDb.ts";
+import { transferTaskStatus, addTask,  deleteTaskById, toggleTaskStatusById } from "./tasksSystem/taskDb.ts";
 
 export interface SessionData {
   stage:
@@ -135,15 +135,15 @@ bot.callbackQuery("castleProcess", async (ctx) => {
 
 bot.callbackQuery(/^task_/, async (ctx) => {
   await ctx.answerCallbackQuery();
-  const taskText = ctx.callbackQuery.data.replace("task_", "");
+  const taskId = ctx.callbackQuery.data.replace("task_", "");
   const previousMessage = ctx.callbackQuery.message?.text;
 
   if (previousMessage?.includes("для удаления")) {
-    await deleteTask(taskText);
-    await ctx.reply(`Задача "${taskText}" успешно удалена.`);
+    await deleteTaskById(taskId);
+    await ctx.reply(`Задача успешно удалена.`);
   } else if (previousMessage?.includes("для изменения статуса")) {
-    await toggleTaskStatus(taskText);
-    await ctx.reply(`Статус задачи "${taskText}" успешно изменен.`);
+    await toggleTaskStatusById(taskId);
+    await ctx.reply(`Статус задачи успешно изменен.`);
   }
 });
 

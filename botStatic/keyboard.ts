@@ -51,11 +51,12 @@ export const calendarKeyboard = new InlineKeyboard()
 
 export const castleProcessKeyboard = new InlineKeyboard();
 
-const listOfCastleProcess: string = await transferTaskStatus();
-const tasks = listOfCastleProcess.split('\n');
+const tasks = await transferTaskStatus();
 
-tasks.forEach((task: string) => {
-  castleProcessKeyboard.text(task, `task_${task}`);
+tasks.forEach((task: Task) => {
+  const checkMark = task.taskStatus ? "✅" : "❌";
+  const displayText = `${task.taskText} ${checkMark}`;
+  castleProcessKeyboard.text(displayText, `task_${task.id}`);
   castleProcessKeyboard.row();
 });
 
