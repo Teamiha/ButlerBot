@@ -51,7 +51,7 @@ bot.callbackQuery("adminZone", async (ctx) => {
 
 bot.callbackQuery("start", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Главное меню", {
+  await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard,
   });
 });
@@ -102,7 +102,7 @@ bot.callbackQuery("deleteUser", async (ctx) => {
 
 bot.callbackQuery("taskManager", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Выберите действие:", {
+  await ctx.editMessageReplyMarkup({
     reply_markup: taskManagerKeyboard,
   });
 });
@@ -111,6 +111,18 @@ bot.callbackQuery("addTask", async (ctx) => {
   await ctx.answerCallbackQuery();
   ctx.session.stage = "addTask";
   await ctx.reply("Напишите текст задачи:");
+});
+
+bot.callbackQuery("deleteTask", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.reply("Выберите задачу для удаления:", {
+    reply_markup: castleProcessKeyboard,
+  });
+});
+
+bot.callbackQuery("changeTaskStatus", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.reply("Введите ID задачи:");
 });
 
 bot.callbackQuery("castleProcess", async (ctx) => {
