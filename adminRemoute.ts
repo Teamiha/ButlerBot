@@ -87,9 +87,14 @@ export async function addAdmin(userId: number) {
     }
   }
 
+async function cleaner() {
+  await kv.delete(["Google_event"]);
+}
+
 // grantAccess(526827458)
 // console.log(await getUser(526827458));
 // console.log(await getAdminOAuthTokensRemoute());
 
 // console.log(await getGoogleEvents());
 // addAdmin(526827458);    
+// cleaner();

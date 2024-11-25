@@ -23,7 +23,7 @@ export async function botAdminZone(ctx: MyContext) {
       await ctx.reply("У вас нет доступа к этой команде.");
       return;
     } else {
-      await ctx.reply("Добро пожаловать в админскую зону.", {
+      await ctx.editMessageReplyMarkup({
         reply_markup: adminKeyboard,
       });
     }

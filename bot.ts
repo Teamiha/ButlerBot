@@ -170,7 +170,9 @@ bot.on("message:text", async (ctx) => {
     const messageText = ctx.message.text;
     await addTask(messageText);
     ctx.session.stage = "null";
-    await ctx.reply("Задача добавлена!");
+    await ctx.reply("Задача добавлена. Выберите действие:", {
+      reply_markup: taskManagerKeyboard,
+    });
   }
 });
 
