@@ -40,6 +40,9 @@ bot.command("start", async (ctx) => {
     return;
   }
 
+  const chatId = ctx.chat.id;
+  console.log(`Chat ID: ${chatId}`);
+
   ctx.session.stage = "null";
   await botStart(ctx);
 });
