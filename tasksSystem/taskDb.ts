@@ -63,7 +63,7 @@ export async function transferTaskStatusForView(): Promise<string> {
   }
 
   const checkMark = "✅";
-  const crossMark = "❌";
+  const crossMark = "🔲";
 
   return tasks
     .map((task) =>

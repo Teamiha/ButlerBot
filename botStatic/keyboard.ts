@@ -64,7 +64,7 @@ export async function generateCastleProcessKeyboard(): Promise<InlineKeyboard> {
   const tasks = await transferTaskStatus();
 
   tasks.forEach((task: Task) => {
-    const displayText = `${task.taskText} ${task.taskStatus ? "✅" : "❌"}`;
+    const displayText = `${task.taskText} ${task.taskStatus ? "✅" : "🔲"}`;
     keyboard.text(displayText, `task_${task.id}`);
     keyboard.row();
   });

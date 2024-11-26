@@ -9,8 +9,8 @@ export const info = `Полезная информация.
 - password: fortress
 
 Точка на втором этаже:
-- name: CASTLE-WIFI
-- password: CASTLE-WIFI
+- name: Castle 2
+- password: 12345679
 
 Точка в большом зале:
 - name: castle1
