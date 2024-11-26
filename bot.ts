@@ -45,6 +45,18 @@ bot.use(session({
 }));
 
 bot.command("start", async (ctx) => {
+
+  const chatId = ctx.chat.id;
+  const threadId = ctx.message?.message_thread_id;
+
+  console.log(`Chat ID: ${chatId}`);
+if (threadId) {
+  console.log(`Thread ID: ${threadId}`);
+} else {
+  console.log("This message is not from a thread.");
+}
+
+
   if (ctx.chat.type !== "private") {
     await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
     return;
