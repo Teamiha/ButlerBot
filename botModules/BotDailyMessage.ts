@@ -1,11 +1,11 @@
 import { Bot } from "@grammyjs/bot";
 import { IDESOS_GROUP_ID } from "../botStatic/constance.ts";
 import { MyContext } from "../bot.ts";
-import { formatWeatherMessage, getTodayWeather } from "../weatherService.ts";
+import { formatWeatherMessage, getWeather } from "../NewWeather.ts";
 import { yerevanToUTC } from "../helpers.ts";
 
-
-const weatherMessage = formatWeatherMessage(await getTodayWeather());
+const weatherData = await getWeather();
+const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weather data unavailable";
 
 const dailyMessage =
   `С добрым утром дорогой замок!

@@ -2,6 +2,10 @@ import { OPENWEATHER_API_KEY } from "./config.ts";
 
 const YEREVAN_CITY_ID = "616052"; // Код города Еревана
 
+
+
+
+
 interface WeatherData {
   temperature: number;
   feels_like: number;
