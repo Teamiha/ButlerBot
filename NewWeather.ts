@@ -39,8 +39,8 @@ type WeatherData = {
   
       // Формируем общий объект
       const weather: WeatherData = {
-        temperature: currentWeather.temperature,
-        feels_like: currentWeather.temperatureApparent,
+        temperature: Math.round(currentWeather.temperature),
+        feels_like: Math.round(currentWeather.temperatureApparent),
         humidity: currentWeather.humidity,
         wind_speed: currentWeather.windSpeed,
         description: getWeatherDescription(currentWeather.weatherCode),
