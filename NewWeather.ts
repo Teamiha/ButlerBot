@@ -6,8 +6,8 @@ type WeatherData = {
     humidity: number;
     wind_speed: number;
     description: string;
-    dailyForecast: { time: string; temperature: number; description: string }[];
-  };
+    averageDayTemp: number;
+};
   
 
   const latitude = 40.1792;
@@ -26,17 +26,13 @@ type WeatherData = {
   
       // Текущая погода
       const currentWeather = intervals[0].values;
-  
-      // Прогноз на день
-      const dailyForecast = intervals.slice(0, 24).map((interval: any) => ({
-        time: new Date(interval.startTime).toLocaleTimeString("ru-RU", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        temperature: interval.values.temperature,
-        description: getWeatherDescription(interval.values.weatherCode),
-      }));
-  
+      
+      // Считаем среднюю температуру за день
+      const dayTemperatures = intervals.slice(10, 24).map((interval: any) => interval.values.temperature);
+      const averageDayTemp = Math.round(
+        dayTemperatures.reduce((sum: number, temp: number) => sum + temp, 0) / dayTemperatures.length
+      );
+
       // Формируем общий объект
       const weather: WeatherData = {
         temperature: Math.round(currentWeather.temperature),
@@ -44,7 +40,7 @@ type WeatherData = {
         humidity: currentWeather.humidity,
         wind_speed: currentWeather.windSpeed,
         description: getWeatherDescription(currentWeather.weatherCode),
-        dailyForecast,
+        averageDayTemp,
       };
   
       return weather;
@@ -86,27 +82,16 @@ type WeatherData = {
   }
   
   export function formatWeatherMessage(weather: WeatherData): string {
-    const forecastText = weather.dailyForecast
-      .map(
-        (entry) =>
-          `⏰ ${entry.time} — 🌡 ${entry.temperature}°C, 📝 ${entry.description}`
-      )
-      .join("\n");
-  
     return `🌤 Погода в Ереване сегодня:
     
-  🌡 Температура: ${weather.temperature}°C
-  🤔 Ощущается как: ${weather.feels_like}°C
-  💧 Влажность: ${weather.humidity}%
-  🌪 Скорость ветра: ${weather.wind_speed} м/с
-  📝 Описание: ${weather.description}
-  
-  📅 Прогноз на день:
-  ${forecastText}`;
+🌡 Средняя температура в течении дня: ${weather.averageDayTemp}°C
+🤔 Ощущается как: ${weather.feels_like}°C
+💧 Влажность: ${weather.humidity}%
+🌪 Скорость ветра: ${weather.wind_speed} м/с
+📝 Описание: ${weather.description}
+`;
   }
   
-
-
 async function testWeather() {
 
     const weather = await getWeather();
