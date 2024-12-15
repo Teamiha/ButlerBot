@@ -8,11 +8,11 @@ const weatherData = await getWeather();
 const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weather data unavailable";
 
 const dailyMessage =
-  `С добрым утром дорогой замок!
+  `Доброго вечера, дорогой Замок!
 
 ${weatherMessage}`;
 
-const targetHour = await yerevanToUTC(9);
+const targetHour = await yerevanToUTC(23);
 
 export async function botDailyMessage(bot: Bot<MyContext>) {
   Deno.cron("dailyMessage", `0 ${targetHour} * * *`, async () => {

@@ -7,6 +7,7 @@ type WeatherData = {
     wind_speed: number;
     description: string;
     averageDayTemp: number;
+    minNightTemp: number;
 };
   
 
@@ -24,16 +25,16 @@ type WeatherData = {
       const data = await response.json();
       const intervals = data.data.timelines[0].intervals;
   
-      // Текущая погода
       const currentWeather = intervals[0].values;
       
-      // Считаем среднюю температуру за день
-      const dayTemperatures = intervals.slice(10, 24).map((interval: any) => interval.values.temperature);
+      const nightTemperatures = intervals.slice(0, 9).map((interval: any) => interval.values.temperature);
+      const minNightTemp = Math.round(Math.min(...nightTemperatures));
+
+      const dayTemperatures = intervals.slice(10, 21).map((interval: any) => interval.values.temperature);
       const averageDayTemp = Math.round(
         dayTemperatures.reduce((sum: number, temp: number) => sum + temp, 0) / dayTemperatures.length
       );
 
-      // Формируем общий объект
       const weather: WeatherData = {
         temperature: Math.round(currentWeather.temperature),
         feels_like: Math.round(currentWeather.temperatureApparent),
@@ -41,6 +42,7 @@ type WeatherData = {
         wind_speed: currentWeather.windSpeed,
         description: getWeatherDescription(currentWeather.weatherCode),
         averageDayTemp,
+        minNightTemp,
       };
   
       return weather;
@@ -82,10 +84,10 @@ type WeatherData = {
   }
   
   export function formatWeatherMessage(weather: WeatherData): string {
-    return `🌤 Погода в Ереване сегодня:
+    return `🌤 Прогноз погоды в Ереване:
     
-🌡 Средняя температура в течении дня: ${weather.averageDayTemp}°C
-🤔 Ощущается как: ${weather.feels_like}°C
+❄️ Минимальная температура ночью: ${weather.minNightTemp}°C
+🌡 Средняя температура завтра: ${weather.averageDayTemp}°C
 💧 Влажность: ${weather.humidity}%
 🌪 Скорость ветра: ${weather.wind_speed} м/с
 📝 Описание: ${weather.description}
