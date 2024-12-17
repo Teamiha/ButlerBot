@@ -8,7 +8,7 @@ const weatherData = await getWeather();
 const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weather data unavailable";
 
 const dailyMessage =
-  `Доброго вечера, дорогой Замок!
+  `Всем хорошего вечера! 🤗
 
 ${weatherMessage}`;
 

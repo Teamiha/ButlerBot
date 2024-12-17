@@ -8,6 +8,7 @@ type WeatherData = {
     description: string;
     averageDayTemp: number;
     minNightTemp: number;
+    intervals: any[];
 };
   
 
@@ -43,6 +44,7 @@ type WeatherData = {
         description: getWeatherDescription(currentWeather.weatherCode),
         averageDayTemp,
         minNightTemp,
+        intervals,
       };
   
       return weather;
@@ -54,44 +56,58 @@ type WeatherData = {
   
   function getWeatherDescription(code: number): string {
     const descriptions: Record<number, string> = {
-      1000: "Ясно",
-      1001: "Облачно",
-      1100: "Переменная облачность",
-      1101: "Местами облачно",
-      1102: "Сильно облачно",
-      2000: "Туман",
-      2100: "Местами туман",
-      3000: "Ветреная погода",
-      3001: "Легкий ветер",
-      3002: "Сильный ветер",
-      4000: "Мелкий дождь",
-      4001: "Дождь",
-      4200: "Небольшой дождь",
-      4201: "Ливень",
-      5000: "Снег",
-      5001: "Снег с перерывами",
-      5100: "Небольшой снег",
-      5101: "Снегопад",
-      6000: "Мелкий дождь с заморозками",
-      6001: "Дождь с заморозками",
-      6200: "Легкий замерзающий дождь",
-      6201: "Сильный замерзающий дождь",
-      7000: "Град",
-      7101: "Сильный град",
-      7102: "Мелкий град",
+      1000: "☀️",
+      1001: "☁️",
+      1100: "🌤",
+      1101: "🌥",
+      1102: "☁️",
+      2000: "🌫",
+      2100: "🌫",
+      3000: "💨",
+      3001: "🌬",
+      3002: "🌪",
+      4000: "🌧",
+      4001: "🌧🌧",
+      4200: "🌦",
+      4201: "⛈⛈",
+      5000: "🌨",
+      5001: "🌨",
+      5100: "🌨",
+      5101: "❄️❄️",
+      6000: "🌧❄️",
+      6001: "🌧❄️",
+      6200: "🌧❄️",
+      6201: "⛈❄️",
+      7000: "🌨🗿",
+      7101: "🌨🗿",
+      7102: "🌨🗿",
     };
-    return descriptions[code] || "Неизвестные погодные условия";
+    return descriptions[code] || "❓";
   }
   
   export function formatWeatherMessage(weather: WeatherData): string {
-    return `🌤 Прогноз погоды в Ереване:
-    
-❄️ Минимальная температура ночью: ${weather.minNightTemp}°C
-🌡 Средняя температура завтра: ${weather.averageDayTemp}°C
-💧 Влажность: ${weather.humidity}%
-🌪 Скорость ветра: ${weather.wind_speed} м/с
-📝 Описание: ${weather.description}
-`;
+    const morningTemp = Math.round(weather.intervals[9].values.temperature); // 9:00
+    const dayTemp = Math.round(
+      weather.intervals.slice(13, 17).reduce((sum, interval) => sum + interval.values.temperature, 0) / 4
+    ); // 13:00-16:00
+    const eveningTemp = Math.round(
+      weather.intervals.slice(18, 22).reduce((sum, interval) => sum + interval.values.temperature, 0) / 4
+    ); // 18:00-21:00
+
+    const morningWeather = getWeatherDescription(weather.intervals[9].values.weatherCode);
+    const dayWeather = getWeatherDescription(weather.intervals[14].values.weatherCode); // берем погоду в середине дня
+    const eveningWeather = getWeatherDescription(weather.intervals[19].values.weatherCode); // берем погоду в середине вечера
+    const nightWeather = getWeatherDescription(weather.intervals[0].values.weatherCode);
+
+    return `Ночь      ${nightWeather} ${weather.minNightTemp}°
+
+Завтра:
+Утро   ${morningWeather} ${morningTemp}°
+День   ${dayWeather} ${dayTemp}°
+Вечер  ${eveningWeather} ${eveningTemp}°
+
+Влажность ${weather.humidity}%
+Ветер    ${weather.wind_speed} м/с`;
   }
   
 async function testWeather() {
