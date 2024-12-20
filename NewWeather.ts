@@ -86,28 +86,33 @@ type WeatherData = {
   }
   
   export function formatWeatherMessage(weather: WeatherData): string {
-    const morningTemp = Math.round(weather.intervals[9].values.temperature); // 9:00
+    const morningTemp = Math.round(weather.intervals[9].values.temperature);
     const dayTemp = Math.round(
       weather.intervals.slice(13, 17).reduce((sum, interval) => sum + interval.values.temperature, 0) / 4
-    ); // 13:00-16:00
+    );
     const eveningTemp = Math.round(
       weather.intervals.slice(18, 22).reduce((sum, interval) => sum + interval.values.temperature, 0) / 4
-    ); // 18:00-21:00
+    );
 
     const morningWeather = getWeatherDescription(weather.intervals[9].values.weatherCode);
-    const dayWeather = getWeatherDescription(weather.intervals[14].values.weatherCode); // берем погоду в середине дня
-    const eveningWeather = getWeatherDescription(weather.intervals[19].values.weatherCode); // берем погоду в середине вечера
+    const dayWeather = getWeatherDescription(weather.intervals[14].values.weatherCode);
+    const eveningWeather = getWeatherDescription(weather.intervals[19].values.weatherCode);
     const nightWeather = getWeatherDescription(weather.intervals[0].values.weatherCode);
 
-    return `Ночь      ${nightWeather} ${weather.minNightTemp}°
+    // Функция для форматирования температуры
+    const formatTemp = (temp: number): string => {
+      return temp > 0 ? ` ${temp}°` : `${temp}°`;
+    };
+
+    return `Ночь     ${nightWeather}${formatTemp(weather.minNightTemp)}
 
 Завтра:
-Утро   ${morningWeather} ${morningTemp}°
-День   ${dayWeather} ${dayTemp}°
-Вечер  ${eveningWeather} ${eveningTemp}°
+Утро    ${morningWeather}${formatTemp(morningTemp)}
+День    ${dayWeather}${formatTemp(dayTemp)}
+Вечер   ${eveningWeather}${formatTemp(eveningTemp)}
 
-Влажность ${weather.humidity}%
-Ветер    ${weather.wind_speed} м/с`;
+Влажность  ${weather.humidity}%
+Ветер      ${weather.wind_speed} м/с`;
   }
   
 async function testWeather() {
