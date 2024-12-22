@@ -10,7 +10,7 @@ const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weathe
 const dailyMessage =
   `Всем хорошего вечера! 🤗
 
-\`\`\`
+\`\`\`text
 ${weatherMessage}
 \`\`\``;
 
