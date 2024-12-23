@@ -101,11 +101,15 @@ type WeatherData = {
 
     // Функция для форматирования температуры с выравниванием
     const formatTemp = (temp: number): string => {
-      const tempStr = temp > 0 ? ` ${temp}°` : `${temp}°`;
-      return `${' '.repeat(8)}${tempStr}`; // Добавляем фиксированный отступ после эмодзи
+      if (temp > 0) {
+        return `${' '.repeat(2)}${temp}`; // Добавляем фиксированный отступ после эмодзи
+      } else {
+        return `${' '.repeat(1)}${temp}`; // Добавляем фиксированный отступ после эмодзи
+      }
     };
 
-    return `Ночь${' '.repeat(7)}${nightWeather}${formatTemp(weather.minNightTemp)}
+
+    return `Ночь${' '.repeat(6)}${nightWeather}${formatTemp(weather.minNightTemp)}
 
 Завтра:
 Утро${' '.repeat(6)}${morningWeather}${formatTemp(morningTemp)}
