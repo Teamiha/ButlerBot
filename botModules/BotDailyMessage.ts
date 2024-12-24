@@ -10,9 +10,7 @@ const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weathe
 const dailyMessage =
   `Всем хорошего вечера! 🤗
 
-\`\`\`pre
-${weatherMessage}
-\`\`\``;
+${weatherMessage}`;
 
 const targetHour = await yerevanToUTC(23);
 
