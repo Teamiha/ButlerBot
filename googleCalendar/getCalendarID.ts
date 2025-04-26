@@ -39,7 +39,7 @@ export async function listAllCalendars(): Promise<Calendar[]> {
       location: item.location,
       timeZone: item.timeZone,
     }));
-
+    console.log(calendars)
     return calendars;
   } catch (error) {
     console.error("Ошибка при обращении к Google Calendar API:", error);
@@ -58,4 +58,4 @@ async function getCalendarID() {
   }
 }
 
-getCalendarID();
+// getCalendarID();
