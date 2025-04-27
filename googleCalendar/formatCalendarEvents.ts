@@ -7,7 +7,11 @@ export function formatCalendarEvents(events: GoogleCalendarEvent[]): string {
 
   const formattedEvents = events.map(event => {
     const startTime = event.start.dateTime 
-      ? new Date(event.start.dateTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+      ? new Date(event.start.dateTime).toLocaleTimeString('ru-RU', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          timeZone: 'Asia/Yerevan'
+        })
       : 'Весь день';
     
     return `🕒 ${startTime}
