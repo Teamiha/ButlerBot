@@ -16,6 +16,18 @@ export async function botDailyMessage(bot: Bot<MyContext>) {
   // Планируем получение событий на 22:50
   Deno.cron("getEvents", `${reminderMinute} ${reminderHour} * * *`, async () => {
     try {
+      const kv = await getKv();
+      // Попытка получить блокировку
+      const lock = await kv.atomic()
+        .check({ key: ["reltubBot", "dailyMessage_lock"], versionstamp: null })
+        .set(["reltubBot", "dailyMessage_lock"], true, { expireIn: 5 * 60 * 1000 }) // 5 минут
+        .commit();
+
+      if (!lock.ok) {
+        console.log("Другой экземпляр уже готовит сообщение");
+        return;
+      }
+
       const events = await getCalendarEventsForNext24Hours(CASTLE_PUBLIC_CALENDAR_ID);
       const weatherData = await getWeather();
       const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weather data unavailable";
@@ -28,7 +40,6 @@ ${weatherMessage}
 ${eventsMessage}`;
 
       // Сохраняем сообщение в KV для отправки в 23:00
-      const kv = await getKv();
       await kv.set(["reltubBot", "dailyMessage"], dailyMessage);
     } catch (error) {
       console.error("Ошибка при подготовке ежедневного сообщения:", error);
@@ -39,14 +50,26 @@ ${eventsMessage}`;
   Deno.cron("dailyMessage", `0 ${targetHour} * * *`, async () => {
     try {
       const kv = await getKv();
+      const lock = await kv.atomic()
+        .check({ key: ["reltubBot", "send_lock"], versionstamp: null })
+        .set(["reltubBot", "send_lock"], true, { expireIn: 5 * 60 * 1000 })
+        .commit();
+
+      if (!lock.ok) {
+        console.log("Другой экземпляр уже отправляет сообщение");
+        return;
+      }
+
       const messageEntry = await kv.get<string>(["reltubBot", "dailyMessage"]);
       const message = messageEntry.value || "Всем хорошего вечера! 🤗";
 
-      await bot.api.sendMessage(IDESOS_GROUP_ID, message);
-      console.log("Ежедневное сообщение отправлено");
-      
-      // Очищаем сохраненное сообщение
-      await kv.delete(["reltubBot", "dailyMessage"]);
+      try {
+        await bot.api.sendMessage(IDESOS_GROUP_ID, message);
+        console.log("Ежедневное сообщение отправлено");
+      } finally {
+        // Очищаем сообщение в любом случае
+        await kv.delete(["reltubBot", "dailyMessage"]);
+      }
     } catch (error) {
       console.error("Ошибка при отправке ежедневного сообщения:", error);
     }
