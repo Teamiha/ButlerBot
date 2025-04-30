@@ -33,7 +33,7 @@ export async function botDailyMessage(bot: Bot<MyContext>) {
       const weatherMessage = weatherData ? formatWeatherMessage(weatherData) : "Weather data unavailable";
       const eventsMessage = formatCalendarEvents(events);
 
-      const dailyMessage = `Всем хорошего вечера! 🤗
+      const dailyMessage = `Хорошего вечера! 🤗
 
 ${weatherMessage}
 

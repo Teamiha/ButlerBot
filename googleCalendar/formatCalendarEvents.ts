@@ -2,7 +2,7 @@ import { GoogleCalendarEvent } from "../googleCalendar/calendarSevice.ts";
 
 export function formatCalendarEvents(events: GoogleCalendarEvent[]): string {
   if (events.length === 0) {
-    return "На завтра мероприятий не запланировано.";
+    return "Мероприятия: нет";
   }
 
   const formattedEvents = events.map(event => {
@@ -12,12 +12,21 @@ export function formatCalendarEvents(events: GoogleCalendarEvent[]): string {
           minute: '2-digit',
           timeZone: 'Asia/Yerevan'
         })
-      : 'Весь день';
+      : '00:00';
     
-    return `🕒 ${startTime}
-📍 ${event.summary}
-${event.description ? `📝 ${event.description}\n` : ''}`;
+    const endTime = event.end.dateTime 
+      ? new Date(event.end.dateTime).toLocaleTimeString('ru-RU', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          timeZone: 'Asia/Yerevan'
+        })
+      : '23:59';
+
+    // Извлекаем место проведения из описания или используем дефолтное значение
+    const location = event.location || "Место не указано"; // Предполагаем, что место указано в поле location
+
+    return `⌚ ${startTime} - ${endTime}, ${location}\n📍 ${event.summary}`;
   }).join('\n\n');
 
-  return `Мероприятия на завтра:\n\n${formattedEvents}`;
+  return `Мероприятия:\n\n${formattedEvents}`;
 }

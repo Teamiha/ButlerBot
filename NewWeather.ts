@@ -99,26 +99,15 @@ type WeatherData = {
     const eveningWeather = getWeatherDescription(weather.intervals[19].values.weatherCode);
     const nightWeather = getWeatherDescription(weather.intervals[0].values.weatherCode);
 
-    // Функция для форматирования температуры с выравниванием
     const formatTemp = (temp: number): string => {
-      if (temp > 0) {
-        return `${' '.repeat(2)}${temp}`; // Добавляем фиксированный отступ после эмодзи
-      } else {
-        return `${' '.repeat(1)}${temp}`; // Добавляем фиксированный отступ после эмодзи
-      }
+      return temp > 0 ? `+${temp}` : `${temp}`;
     };
 
-
-    return `Ночь${' '.repeat(5)}${nightWeather}${formatTemp(weather.minNightTemp)}
-
-Завтра:
-Утро${' '.repeat(6)}${morningWeather}${formatTemp(morningTemp)}
-День${' '.repeat(6)}${dayWeather}${formatTemp(dayTemp)}
-Вечер${' '.repeat(4)}${eveningWeather}${formatTemp(eveningTemp)}
-
-Влажность${' '.repeat(2)}${weather.humidity}%
-Ветер${' '.repeat(6)}${weather.wind_speed} м/с`;
-}
+    return `Ночь      ${nightWeather}  ${formatTemp(weather.minNightTemp)}
+Завтра  ${morningWeather}${formatTemp(morningTemp)}.. ${dayWeather}${formatTemp(dayTemp)}.. ${eveningWeather}${formatTemp(eveningTemp)}
+💧  ${weather.humidity}%
+🌪  ${weather.wind_speed} м/с`;
+  }
   
 async function testWeather() {
 
