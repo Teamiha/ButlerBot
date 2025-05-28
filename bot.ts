@@ -55,6 +55,25 @@ bot.command("start", async (ctx) => {
   await botStart(ctx);
 });
 
+bot.command("door", async (ctx) => {
+  if (ctx.chat.id !== IDESOS_GROUP_ID) {
+    await ctx.reply("Эта команда доступна только в определенной группе.");
+    return;
+  }
+
+  try {
+    const response = await fetch("https://lamb-enough-closely.ngrok-free.app/open");
+    if (response.ok) {
+      await ctx.reply("Дверь открыта! 🚪");
+    } else {
+      await ctx.reply("Произошла ошибка, сообщите Мише.");
+    }
+  } catch (error) {
+    console.error("Error executing door command:", error);
+    await ctx.reply("Произошла ошибка, сообщите Мише.");
+  }
+});
+
 bot.callbackQuery("adminZone", async (ctx) => {
   await ctx.answerCallbackQuery();
   await botAdminZone(ctx);
@@ -213,5 +232,7 @@ bot.on("message:text", async (ctx) => {
     });
   }
 });
+
+
 
 export { bot };
