@@ -45,7 +45,6 @@ bot.use(session({
 }));
 
 bot.command("start", async (ctx) => {
-
   if (ctx.chat.type !== "private") {
     await ctx.reply("Доступ к меню доступен только в личном диалоге с ботом.");
     return;
@@ -55,12 +54,9 @@ bot.command("start", async (ctx) => {
   await botStart(ctx);
 });
 
-bot.command("door", async (ctx) => {
-  if (ctx.chat.id !== IDESOS_GROUP_ID) {
-    await ctx.reply("Эта команда доступна только в определенной группе.");
-    return;
-  }
-
+bot.callbackQuery("open_door", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  
   try {
     const response = await fetch("https://lamb-enough-closely.ngrok-free.app/open");
     if (response.ok) {
@@ -232,7 +228,5 @@ bot.on("message:text", async (ctx) => {
     });
   }
 });
-
-
 
 export { bot };

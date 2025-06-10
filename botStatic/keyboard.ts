@@ -6,15 +6,11 @@ export const registrationKeyboard = new InlineKeyboard()
   .text("Регистрация", "auth");
 
 export const startKeyboard = new InlineKeyboard()
-  .text("Процесс обустройки замка", "castleProcess")
-  .row()
-  .text("Информация", "info")
-  .row()
-  .text("Анонимное сообщение", "anonMessage")
-  .row()
-  // .text("Добавить вещь в глобальный виш-лист", "addWish")
-  // .row()
-  .text("Админский раздел", "adminZone");
+  .text("🚪 Открыть дверь", "open_door").row()
+  .text("📝 Анонимное сообщение", "anonMessage").row()
+  // .text("📅 Управление задачами", "taskManager").row()
+  // .text("ℹ️ Информация", "info").row()
+  .text("👤 Админ панель", "adminZone");
 
 export const adminKeyboard = new InlineKeyboard()
   // .text("Написать новость", "makeNews")
