@@ -7,7 +7,7 @@ export const registrationKeyboard = new InlineKeyboard()
 
 export const startKeyboard = new InlineKeyboard()
   .text("🚪 Открыть дверь", "open_door").row()
-  .text("📝 Анонимное сообщение", "anonMessage").row()
+  // .text("📝 Анонимное сообщение", "anonMessage").row()
   // .text("📅 Управление задачами", "taskManager").row()
   // .text("ℹ️ Информация", "info").row()
   .text("👤 Админ панель", "adminZone");
